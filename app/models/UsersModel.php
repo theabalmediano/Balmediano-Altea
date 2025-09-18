@@ -2,7 +2,7 @@
 defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
 /**
- * Model: User_Model
+ * Model: UsersModel
  * 
  * Automatically generated via CLI.
  */

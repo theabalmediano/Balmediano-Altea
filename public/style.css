@@ -1,0 +1,361 @@
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: "Garamond", "Times New Roman", serif;
+  background-size: cover;
+  text-align: center;
+  color: #3b2f1b;
+}
+
+h1 {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-size: 48px;
+  text-shadow: 2px 2px #bd4380;
+}
+
+.description-box {
+  background: rgba(252, 252, 251, 0.85);
+  border: 3px solid #f5ccee;body {
+  margin: 0;
+  padding: 20px;
+  font-family: "Garamond", "Times New Roman", serif;
+  background-size: cover;
+  text-align: center;
+  color: #4b0033; /* darker pink text */
+}
+
+h1 {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-size: 48px;
+  text-shadow: 2px 2px #ffc0cb; /* light pink shadow */
+}
+
+.description-box {
+  background: rgba(255, 182, 193, 0.85); /* light pink */
+  border: 3px solid #ff69b4; /* hot pink border */
+  border-radius: 12px;
+  width: 60%;
+  margin: 40px auto;
+  padding: 20px;
+  box-shadow: 0 0 15px #c71585; /* medium pink shadow */
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.buttons {
+  margin-top: 30px;
+}
+
+.guild-table {
+  width: 80%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background: rgba(255, 182, 193, 0.9);
+  box-shadow: 0 0 15px #c71585;
+}
+
+.guild-table th,
+.guild-table td {
+  border: 2px solid #ff69b4;
+  padding: 12px;
+  font-size: 18px;
+}
+
+.guild-table th {
+  background: #ff69b4;
+  color: #fff0f5;
+}
+
+.guild-table tr:nth-child(even) {
+  background: rgba(255, 192, 203, 0.8);
+}
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 8px;
+  background: #ff69b4;
+  color: #fff0f5;
+  border: 2px solid #c71585;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #ff85c1;
+  transform: scale(1.05);
+}
+
+.btn.danger {
+  background: #c71585; /* dark pink/red */
+  border-color: #8b004d;
+}
+
+.btn.create {
+  display: inline-block;
+  margin-top: 20px;
+  background: #ff1493; /* deep pink */
+  border-color: #8b004d;
+}
+
+.form-box {
+  background: rgba(255, 182, 193, 0.9);
+  border: 3px solid #ff69b4;
+  border-radius: 12px;
+  width: 50%;
+  margin: 40px auto;
+  padding: 30px;
+  box-shadow: 0 0 15px #c71585;
+  text-align: center;
+}
+
+.form-box label {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.form-input {
+  width: 70%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 2px solid #ff69b4;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: "Garamond", serif;
+  background: #ffe4ec; /* very light pink */
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto 20px auto;
+}
+
+.search {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 2px solid #c71585;
+  font-size: 16px;
+  font-family: "Garamond", serif;
+  background: #ffe4ec;
+  color: #4b0033;
+  height: 36px;
+  box-sizing: border-box;
+}
+
+.header-row .btn {
+  height: 36px;
+  margin-left: 5px;
+  padding: 8px 16px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.pagination-link {
+  display: inline-block;
+  padding: 8px 15px;
+  margin: 0 3px;
+  text-decoration: none;
+  background: #ff69b4;
+  color: #fff0f5;
+  border: 2px solid #c71585;
+  border-radius: 8px;
+  font-family: "Garamond", serif;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.pagination-link:hover {
+  background: #ff85c1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(199, 21, 133, 0.3);
+}
+
+.pagination-current {
+  display: inline-block;
+  padding: 8px 15px;
+  margin: 0 3px;
+  background: linear-gradient(135deg, #ff85c1, #ff69b4);
+  color: #fff0f5;
+  border: 2px solid #c71585;
+  border-radius: 8px;
+  font-family: "Garamond", serif;
+  font-weight: bold;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(199, 21, 133, 0.5);
+}
+
+  border-radius: 12px;
+  width: 60%;
+  margin: 40px auto;
+  padding: 20px;
+  box-shadow: 0 0 15px #3b2f1b;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.buttons {
+  margin-top: 30px;
+}
+
+.guild-table {
+  width: 80%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background: rgba(245, 222, 179, 0.9);
+  box-shadow: 0 0 15px #3b2f1b;
+}
+
+.guild-table th,
+.guild-table td {
+  border: 2px solid #6b4f2e;
+  padding: 12px;
+  font-size: 18px;
+}
+
+.guild-table th {
+  background: #6b4f2e;
+  color: #f5e6c5;
+}
+
+.guild-table tr:nth-child(even) {
+  background: rgba(255, 248, 220, 0.8);
+}
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 8px;
+  background: #6b4f2e;
+  color: #f5e6c5;
+  border: 2px solid #3b2f1b;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #8b5e34;
+  transform: scale(1.05);
+}
+
+.btn.danger {
+  background: darkred;
+  border-color: #5c0000;
+}
+
+.btn.create {
+  display: inline-block;
+  margin-top: 20px;
+  background: darkgreen;
+  border-color: #003300;
+}
+
+.form-box {
+  background: rgba(245, 222, 179, 0.9);
+  border: 3px solid #6b4f2e;
+  border-radius: 12px;
+  width: 50%;
+  margin: 40px auto;
+  padding: 30px;
+  box-shadow: 0 0 15px #3b2f1b;
+  text-align: center;
+}
+
+.form-box label {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.form-input {
+  width: 70%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 2px solid #6b4f2e;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: "Garamond", serif;
+  background: #fdf7e3;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  width: 80%;        
+  margin: 0 auto 20px auto; 
+}
+
+.search {
+  padding: 8px 12px;         
+  border-radius: 8px;
+  border: 2px solid #3b2f1b;
+  font-size: 16px;
+  font-family: "Garamond", serif;
+  background: #fdf7e3;
+  color: #3b2f1b;
+  height: 36px;              
+  box-sizing: border-box;
+}
+
+.header-row .btn {
+  height: 36px;              
+  margin-left: 5px;
+  padding: 8px 16px;        
+}
+
+.pagination {
+  display: flex;               
+  justify-content: center;     
+  flex-wrap: nowrap;          
+  gap: 8px;                   
+  margin: 20px 0;              
+}
+
+/* Adventure-themed pagination styles to match your design */
+.pagination-link {
+  display: inline-block;
+  padding: 8px 15px;
+  margin: 0 3px;
+  text-decoration: none;
+  background: #6b4f2e;
+  color: #f5e6c5;
+  border: 2px solid #3b2f1b;
+  border-radius: 8px;
+  font-family: "Garamond", serif;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.pagination-link:hover {
+  background: #8b5e34;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(59, 47, 27, 0.3);
+}
+
+.pagination-current {
+  display: inline-block;
+  padding: 8px 15px;
+  margin: 0 3px;
+  background: linear-gradient(135deg, #8b5e34, #6b4f2e);
+  color: #f5e6c5;
+  border: 2px solid #3b2f1b;
+  border-radius: 8px;
+  font-family: "Garamond", serif;
+  font-weight: bold;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(59, 47, 27, 0.5);
+}

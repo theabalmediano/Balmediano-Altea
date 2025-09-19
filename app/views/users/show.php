@@ -40,7 +40,7 @@
         <input type="text" name="q" class="flex-1 px-3 py-2 rounded-xl border border-pink-300 focus:ring-2 focus:ring-pink-500" placeholder="Search users..." value="<?= htmlspecialchars($q); ?>">
         <button type="submit" class="px-4 py-2 bg-pink-400 rounded-xl text-white font-semibold hover:bg-pink-500"><i class="fa-solid fa-magnifying-glass mr-1"></i>Search</button>
     </form>
-    <a href="<?= site_url('users/create'); ?>" class="ml-4 px-4 py-2 bg-purple-500 text-white rounded-xl font-semibold hover:bg-purple-600"><i class="fa-solid fa-plus mr-1"></i> Add User</a>
+    <a href="<?= site_url('/users/create'); ?>" class="ml-4 px-4 py-2 bg-purple-500 text-white rounded-xl font-semibold hover:bg-purple-600"><i class="fa-solid fa-plus mr-1"></i> Add User</a>
 </div>
 
 <!-- Table -->

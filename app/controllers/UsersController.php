@@ -61,7 +61,7 @@ class UsersController extends Controller {
             );
             if($this->UsersModel->insert($data))
             {
-                redirect();
+                redirect('/');
             }else{
                 echo'Error';
             }
@@ -83,9 +83,9 @@ class UsersController extends Controller {
             );
             if($this->UsersModel->update($id,$data))
             {
-                redirect();
+                redirect('/');
             }else{
-                redirect($id);
+                redirect('/'.$id);
             }
         }
         $this->call->view('users/update',$data);
@@ -95,7 +95,7 @@ class UsersController extends Controller {
     {
         if($this->UsersModel->delete($id))
         {
-            redirect('');
+            redirect('/');
         }else{
             echo'Error';
         }
@@ -105,7 +105,7 @@ class UsersController extends Controller {
     {
         if($this->UsersModel->soft_delete($id))
         {
-            redirect();
+            redirect('/');
         }else{
             echo'Error';
         }

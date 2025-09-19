@@ -17,7 +17,7 @@ class UsersController extends Controller {
     }
     
     //pakita
-   public function index()
+   public function show()
     {
         // Current page
         $page = 1;
@@ -55,7 +55,7 @@ class UsersController extends Controller {
         );
         $data['page'] = $this->pagination->paginate();
 
-        $this->call->view('users/index', $data);
+        $this->call->view('users/show', $data);
     }
     //pasok
     function create()

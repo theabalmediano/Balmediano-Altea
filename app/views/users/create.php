@@ -39,7 +39,7 @@
     </div>
 
     <!-- Form -->
-    <form action="<?=site_url('users/create')?>" method="POST" class="space-y-5">
+    <form action="<?=site_url('/users/create')?>" method="POST" class="space-y-5">
       
       <!-- First Name -->
       <div>

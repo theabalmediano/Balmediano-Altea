@@ -11,13 +11,9 @@ class UsersController extends Controller {
     {
         parent::__construct();
     }
-    function welcome()
-    {
-        $this->call->view('Welcome');
-    }
     
     //pakita
-   public function index()
+    public function index()
     {
         // Current page
         $page = 1;
@@ -35,7 +31,7 @@ class UsersController extends Controller {
 
         
         $all = $this->UsersModel->page($q, $records_per_page, $page);
-        $data['students'] = $all['records'];
+        $data['users'] = $all['records'];
         $total_rows = $all['total_rows'];
 
         // Pagination 
@@ -49,6 +45,7 @@ class UsersController extends Controller {
         ]);
        
         $this->pagination->set_theme('default');
+        
         $this->pagination->initialize(
             $total_rows,
             $records_per_page,
@@ -63,12 +60,12 @@ class UsersController extends Controller {
     function create()
     {
         if($this->io->method() == 'post'){
-            $fname = $this->io->post('first_name');
-            $lname = $this->io->post('last_name');
+            $fname = $this->io->post('last_name');
+            $lname = $this->io->post('first_name');
             $email = $this->io->post('email');
             $data = array(
-                'first_name'=> $fname,
-                'last_name'=> $lname,
+                'last_name'=> $fname,
+                'first_name'=> $lname,
                 'email'=> $email
             );
             if($this->UsersModel->insert($data))
@@ -83,7 +80,7 @@ class UsersController extends Controller {
     //edit
     function update($id)
     {
-        $data ['users'] = $this->UsersModel->find($id);
+        $data ['user'] = $this->UsersModel->find($id);
         if($this->io->method() == 'post'){
             $fname = $this->io->post('first_name');
             $lname = $this->io->post('last_name');
@@ -100,7 +97,7 @@ class UsersController extends Controller {
                 redirect();
             }
         }
-        $this->call->view('users/update',$data);
+        $this->call->view('/users/update',$data);
     }
     //tanggal
     function delete($id)

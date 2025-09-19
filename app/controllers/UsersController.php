@@ -55,7 +55,7 @@ class UsersController extends Controller {
         );
         $data['page'] = $this->pagination->paginate();
 
-        $this->call->view('users/show', $data);
+        $this->call->view('users/index', $data);
     }
     //pasok
     function create()

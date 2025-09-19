@@ -51,13 +51,13 @@ class UsersController extends Controller {
     function create()
     {
         if($this->io->method() == 'post'){
-            $fname = $this->io->post('last_name');
-            $lname = $this->io->post('first_name');
+            $fname = $this->io->post('first_name');
+            $lname = $this->io->post('last_name');
             $email = $this->io->post('email');
             $data = array(
-                'last_name'=> $fname,
-                'first_name'=> $lname,
-                'emai'=> $email
+                'first_name'=> $fname,
+                'last_name'=> $lname,
+                'email'=> $email
             );
             if($this->UsersModel->insert($data))
             {
@@ -66,14 +66,14 @@ class UsersController extends Controller {
                 echo'Error';
             }
         }else{
-        $this->call->view('/users/create');}
+        $this->call->view('users/create');}
     }
     //edit
     function update($id)
     {
         $data ['user'] = $this->UsersModel->find($id);
         if($this->io->method() == 'post'){
-            $fname = $this->io->post('firs_name');
+            $fname = $this->io->post('first_name');
             $lname = $this->io->post('last_name');
             $email = $this->io->post('email');
             $data = array(
@@ -88,7 +88,7 @@ class UsersController extends Controller {
                 redirect('/'.$id);
             }
         }
-        $this->call->view('/users/update',$data);
+        $this->call->view('users/update',$data);
     }
     //tanggal
     function delete($id)

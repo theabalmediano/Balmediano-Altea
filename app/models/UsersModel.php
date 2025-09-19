@@ -4,7 +4,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 class Usersmodel extends Model {
     protected $table = 'students';
     protected $primary_key = 'id';
-    protected $allowed_fields = ['fname', 'mname', 'lname', 'email'];
+    protected $allowed_fields = ['first_name', 'last_name', 'email'];
     protected $validation_rules = [
         'fname' => 'required|min_length[2]|max_length[100]',
         'mname' => 'max_length[100]',

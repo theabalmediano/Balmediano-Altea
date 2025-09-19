@@ -1,105 +1,129 @@
-<?php
-defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>💖 Kuromi User List 💖</title>
+  <title>User Directory - Kuromi Coquette</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="<?=base_url();?>public/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-image: url('https://i.pinimg.com/736x/bf/01/f9/bf01f9444340ecdb37af06d201c6f1cf.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-    }
-    .overlay {
-      background: rgba(255, 240, 245, 0.7);
-    }
-  </style>
 </head>
-<body class="min-h-screen relative flex flex-col items-center justify-start py-8 text-gray-800">
+<body class="bg-gradient-to-br from-purple-900 via-pink-900 to-black font-poppins text-gray-200">
 
-<!-- Overlay -->
-<div class="absolute inset-0 overlay"></div>
-
-<!-- Header -->
-<div class="relative z-10 w-full max-w-4xl text-center mb-6">
-    <h1 class="text-3xl font-bold text-pink-900 mb-2">💖 Kuromi User List 💖</h1>
-    <p class="text-pink-700 italic">🌸 Cute Coquette Tailwind Table 🌸</p>
-</div>
-
-<!-- Search & Add -->
-<div class="relative z-10 w-full max-w-4xl mb-6 flex justify-between items-center">
-    <form action="<?= site_url(); ?>" method="get" class="flex gap-2 flex-1">
-        <?php $q = isset($_GET['q']) ? $_GET['q'] : ''; ?>
-        <input type="text" name="q" class="flex-1 px-3 py-2 rounded-xl border border-pink-300 focus:ring-2 focus:ring-pink-500" placeholder="Search users..." value="<?= htmlspecialchars($q); ?>">
-        <button type="submit" class="px-4 py-2 bg-pink-400 rounded-xl text-white font-semibold hover:bg-pink-500"><i class="fa-solid fa-magnifying-glass mr-1"></i>Search</button>
+  <!-- Header / Search -->
+  <div class="max-w-6xl mx-auto mt-10 px-4">
+    <form method="get" action="<?=site_url()?>" class="mb-6 flex justify-end">
+      <input 
+        type="text" 
+        name="q" 
+        value="<?=html_escape($_GET['q'] ?? '')?>" 
+        placeholder="Search student..." 
+        class="px-4 py-2 rounded-l-full bg-purple-800 border border-pink-600 placeholder-pink-300 text-pink-100 focus:outline-none focus:ring-2 focus:ring-pink-400 w-64">
+      <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-r-full shadow-lg transition duration-300">
+        <i class="fa fa-search"></i>
+      </button>
     </form>
-    <a href="<?= site_url('users/create'); ?>" class="ml-4 px-4 py-2 bg-purple-500 text-white rounded-xl font-semibold hover:bg-purple-600"><i class="fa-solid fa-plus mr-1"></i> Add User</a>
-</div>
+  </div>
 
-<!-- Table -->
-<div class="relative z-10 w-full max-w-4xl bg-white/40 backdrop-blur-2xl rounded-3xl shadow-2xl p-6 border border-pink-200">
-    <table class="w-full text-center border-collapse">
-        <thead>
-            <tr class="bg-pink-200 text-pink-900 font-semibold uppercase">
-                <th class="px-4 py-2">#</th>
-                <th class="px-4 py-2">First Name</th>
-                <th class="px-4 py-2">Last Name</th>
-                <th class="px-4 py-2">Email</th>
-                <th class="px-4 py-2">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if(!empty($users)): ?>
-                <?php foreach($users as $user): ?>
-                <tr class="odd:bg-white/20 even:bg-white/10 hover:bg-pink-50/20 transition-colors">
-                    <td class="px-4 py-2"><?= htmlspecialchars($user['id']) ?></td>
-                    <td class="px-4 py-2"><?= htmlspecialchars($user['first_name']) ?></td>
-                    <td class="px-4 py-2"><?= htmlspecialchars($user['last_name']) ?></td>
-                    <td class="px-4 py-2"><?= htmlspecialchars($user['email']) ?></td>
-                    <td class="px-4 py-2 flex justify-center gap-2">
-                        <a href="<?= site_url('users/update/'.$user['id']); ?>" class="px-2 py-1 bg-yellow-400 rounded-lg text-white hover:bg-yellow-500"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a href="<?= site_url('users/delete/'.$user['id']); ?>" class="px-2 py-1 bg-red-500 rounded-lg text-white hover:bg-red-600" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash"></i></a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="5" class="py-4 text-pink-900 italic">No users found 💔</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-
-    <!-- Pagination -->
-    <div class="mt-6 flex justify-center">
-        <ul class="flex flex-col items-center gap-2">
-            <?php if(!empty($page)): ?>
-                <?php
-                    $links = preg_split('/(?=<a )/', $page);
-                    foreach($links as $link):
-                        if(trim($link) != ''):
-                            $link = preg_replace(
-                                '/<a href="([^"]+)">([^<]+)<\/a>/',
-                                '<a href="$1" class="px-4 py-2 w-32 text-center bg-pink-300 text-pink-900 rounded-xl hover:bg-pink-400 transition">$2</a>',
-                                $link
-                            );
-                            echo "<li>$link</li>";
-                        endif;
-                    endforeach;
-                ?>
-            <?php endif; ?>
-        </ul>
+  <!-- Navbar -->
+  <nav class="bg-gradient-to-r from-purple-800 to-pink-800 shadow-lg py-4">
+    <div class="max-w-6xl mx-auto px-6 flex justify-between items-center text-white font-semibold">
+      <span class="text-xl">Kuromi Coquette Directory</span>
+      <div class="space-x-4">
+        <a href="#" class="hover:text-pink-300 transition">Home</a>
+        <a href="#" class="hover:text-pink-300 transition">About</a>
+        <a href="#" class="hover:text-pink-300 transition">Contacts</a>
+      </div>
     </div>
-</div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="max-w-6xl mx-auto mt-10 px-4">
+    <div class="bg-black/50 backdrop-blur-lg rounded-3xl p-6 border border-purple-700 shadow-2xl">
+
+      <!-- Add New User -->
+      <div class="flex justify-end mb-6">
+        <a href="<?=site_url('users/create')?>"
+           class="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-700 hover:from-purple-700 hover:to-pink-500 text-white font-bold px-5 py-2 rounded-full shadow-lg transition-all duration-300 hover:scale-105">
+          <i class="fa-solid fa-user-plus"></i> Add New User
+        </a>
+      </div>
+
+      <!-- Table -->
+      <div class="overflow-x-auto rounded-3xl border border-purple-700 shadow-lg">
+        <table class="w-full text-center border-collapse">
+          <thead>
+            <tr class="bg-gradient-to-r from-purple-700 to-pink-700 text-white text-sm uppercase tracking-wide">
+              <th class="py-3 px-4">ID</th>
+              <th class="py-3 px-4">Lastname</th>
+              <th class="py-3 px-4">Firstname</th>
+              <th class="py-3 px-4">Email</th>
+              <th class="py-3 px-4">Action</th>
+            </tr>
+          </thead>
+          <tbody class="text-pink-200 text-sm">
+            <?php foreach($users as $user): ?>
+              <tr id="row-<?= $user['id']; ?>" class="hover:bg-purple-900/40 transition duration-200 rounded-lg">
+                <td class="py-3 px-4 font-medium"><?= $user['id']; ?></td>
+                <td class="py-3 px-4"><?= $user['last_name']; ?></td>
+                <td class="py-3 px-4"><?= $user['first_name']; ?></td>
+                <td class="py-3 px-4">
+                  <span class="bg-purple-800 text-pink-300 text-sm font-semibold px-3 py-1 rounded-full">
+                    <?= $user['email']; ?>
+                  </span>
+                </td>
+                <td class="py-3 px-4 flex justify-center gap-3">
+                  <!-- Update Button -->
+                  <a href="<?=site_url('users/update/'.$user['id']);?>"
+                     class="bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-amber-500 hover:to-yellow-400 text-black font-semibold px-3 py-1 rounded-full shadow flex items-center gap-1 transition duration-200">
+                    <i class="fa-solid fa-pen-to-square"></i> Update
+                  </a>
+                  <!-- AJAX Delete Button -->
+                  <button 
+                    class="deleteBtn inline-flex items-center gap-2 bg-gradient-to-r from-red-500 to-pink-600 hover:from-pink-600 hover:to-red-500 text-white px-3 py-1 rounded-full shadow transition-all duration-300"
+                    data-id="<?= $user['id']; ?>">
+                    <i class="fa-solid fa-trash"></i> Delete
+                  </button>
+                </td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="mt-4 flex justify-center">
+        <div class="pagination flex space-x-2 text-pink-300">
+          <?=$page ?? ''?>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- AJAX Delete Script -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+  $(document).on('click', '.deleteBtn', function(){
+      if(!confirm('Delete this user permanently?')) return;
+      const id = $(this).data('id');
+      $.ajax({
+          url: "<?= site_url('users/delete/') ?>" + id,
+          type: "POST",
+          dataType: "json",
+          success: function(res){
+              if(res.status === 'success'){
+                  $("#row-" + id).fadeOut(300,function(){ $(this).remove(); });
+              } else {
+                  alert('Error deleting user.');
+              }
+          },
+          error: function(){
+              alert('Server error.');
+          }
+      });
+  });
+  </script>
 
 </body>
 </html>

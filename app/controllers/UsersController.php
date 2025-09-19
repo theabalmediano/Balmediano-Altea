@@ -81,7 +81,7 @@ class UsersController extends Controller {
     //edit
     function update($id)
     {
-        $data ['user'] = $this->UsersModel->find($id);
+        $data ['users'] = $this->UsersModel->find($id);
         if($this->io->method() == 'post'){
             $fname = $this->io->post('first_name');
             $lname = $this->io->post('last_name');

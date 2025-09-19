@@ -33,7 +33,7 @@
 
 <!-- Search & Add -->
 <div class="relative z-10 w-full max-w-4xl mb-6 flex justify-between items-center">
-    <form action="<?= site_url('/'); ?>" method="get" class="flex gap-2 flex-1">
+    <form action="<?= site_url(); ?>" method="get" class="flex gap-2 flex-1">
         <?php $q = isset($_GET['q']) ? $_GET['q'] : ''; ?>
         <input type="text" name="q" class="flex-1 px-3 py-2 rounded-xl border border-pink-300 focus:ring-2 focus:ring-pink-500" placeholder="Search users..." value="<?= htmlspecialchars($q); ?>">
         <button type="submit" class="px-4 py-2 bg-pink-400 rounded-xl text-white font-semibold hover:bg-pink-500"><i class="fa-solid fa-magnifying-glass mr-1"></i>Search</button>

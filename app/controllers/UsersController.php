@@ -17,7 +17,7 @@ class UsersController extends Controller {
     }
     
     //pakita
-   public function show()
+   public function index()
     {
         // Current page
         $page = 1;

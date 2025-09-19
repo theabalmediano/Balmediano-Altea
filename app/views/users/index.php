@@ -1,7 +1,6 @@
 <?php
 defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,8 +59,8 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
             </tr>
         </thead>
         <tbody>
-            <?php if(!empty($all)): ?>
-                <?php foreach($all as $user): ?>
+            <?php if(!empty($users)): ?>
+                <?php foreach($users as $user): ?>
                 <tr class="odd:bg-white/20 even:bg-white/10 hover:bg-pink-50/20 transition-colors">
                     <td class="px-4 py-2"><?= htmlspecialchars($user['id']) ?></td>
                     <td class="px-4 py-2"><?= htmlspecialchars($user['first_name']) ?></td>
@@ -82,27 +81,27 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
     </table>
 
     <!-- Pagination -->
-  <!-- Vertical Pagination -->
-<div class="mt-6 flex justify-center">
-    <ul class="flex flex-col items-center gap-2">
-        <?php if(!empty($page)): ?>
-            <?php
-                // Split the pagination links into individual links
-                $links = preg_split('/(?=<a )/', $page);
-                foreach($links as $link):
-                    if(trim($link) != ''):
-                        // Add Tailwind styles to each link
-                        $link = preg_replace(
-                            '/<a href="([^"]+)">([^<]+)<\/a>/',
-                            '<a href="$1" class="px-4 py-2 w-32 text-center bg-pink-300 text-pink-900 rounded-xl hover:bg-pink-400 transition">$2</a>',
-                            $link
-                        );
-                        echo "<li>$link</li>";
-                    endif;
-                endforeach;
-            ?>
-        <?php endif; ?>
-    </ul>
+    <div class="mt-6 flex justify-center">
+        <ul class="flex flex-col items-center gap-2">
+            <?php if(!empty($page)): ?>
+                <?php
+                    // Split the pagination links into individual links
+                    $links = preg_split('/(?=<a )/', $page);
+                    foreach($links as $link):
+                        if(trim($link) != ''):
+                            // Add Tailwind styles to each link
+                            $link = preg_replace(
+                                '/<a href="([^"]+)">([^<]+)<\/a>/',
+                                '<a href="$1" class="px-4 py-2 w-32 text-center bg-pink-300 text-pink-900 rounded-xl hover:bg-pink-400 transition">$2</a>',
+                                $link
+                            );
+                            echo "<li>$link</li>";
+                        endif;
+                    endforeach;
+                ?>
+            <?php endif; ?>
+        </ul>
+    </div>
 </div>
 
 </body>

@@ -34,8 +34,8 @@ class UsersController extends Controller {
         $records_per_page = 5;
 
         
-        $all = $this->StudentsModel->page($q, $records_per_page, $page);
-        $data['students'] = $all['records'];
+        $all = $this->UsersModel->page($q, $records_per_page, $page);
+        $data['users'] = $all['records'];
         $total_rows = $all['total_rows'];
 
         // Pagination 

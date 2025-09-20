@@ -43,7 +43,7 @@
   <!-- Container -->
   <div class="relative max-w-6xl mx-auto mt-10 px-4 z-10">
 
-    <!-- Header / Search -->
+    <!-- Header -->
     <div class="flex justify-between items-center mb-6">
       <div class="flex items-center gap-3">
         <div class="magic-icon">
@@ -114,16 +114,11 @@
       </div>
 
       <!-- Pagination -->
-    <?php if(isset($pagination) && !empty($pagination)): ?>
-    <?= str_replace(
-        ['<ul>', '</ul>', '<li>', '</li>', '<a', '</a>'],
-        ['<div class="flex space-x-2">', '</div>', '', '', '<a class="px-3 py-1 rounded-full bg-pink-50/80 text-pink-900 shadow hover:bg-pink-100 transition cursor-pointer"', '</a>'],
-        $pagination
-    ); ?>
-<?php endif; ?>
-
+      <div class="mt-4 flex justify-center">
+        <div class="pagination flex space-x-2 text-pink-700">
+          <?=$page ?? ''?>
+        </div>
       </div>
-
     </div>
 
   </div>

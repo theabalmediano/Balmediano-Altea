@@ -19,53 +19,52 @@ class UsersModel extends Model {
     public function getPaginated($q = '', $recordsPerPage = 5, $page = 1) {
         $query = $this->db->table($this->table);
 
-        if(!empty($q)) {
+        if (!empty($q)) {
             $query->like('first_name', $q)
                   ->or_like('last_name', $q)
                   ->or_like('email', $q);
         }
 
-        // Total rows
+        // Count total rows without resetting query
         $totalRows = $query->count_all_results(false);
 
-        // Paginate results
+        // Fetch paginated results
         $records = $query->limit($recordsPerPage, ($page - 1) * $recordsPerPage)
                          ->get()
                          ->getResultArray();
 
         return [
-            'records'    => $records,
+            'records' => $records,
             'total_rows' => $totalRows
         ];
     }
 
-    // For soft delete / restore if needed
+    // Soft delete support
     public function restorePage($q = '', $recordsPerPage = 5, $page = 1) {
         $query = $this->db->table($this->table)->where('deleted_at IS NOT NULL', null, false);
 
-        if(!empty($q)) {
+        if (!empty($q)) {
             $query->like('first_name', $q)
                   ->or_like('last_name', $q)
                   ->or_like('email', $q);
         }
 
         $totalRows = $query->count_all_results(false);
+
         $records = $query->limit($recordsPerPage, ($page - 1) * $recordsPerPage)
                          ->get()
                          ->getResultArray();
 
         return [
-            'records'    => $records,
+            'records' => $records,
             'total_rows' => $totalRows
         ];
     }
 
-    // Soft delete
     public function softDelete($id) {
         return $this->update($id, ['deleted_at' => date('Y-m-d H:i:s')]);
     }
 
-    // Restore
     public function restore($id) {
         return $this->update($id, ['deleted_at' => null]);
     }

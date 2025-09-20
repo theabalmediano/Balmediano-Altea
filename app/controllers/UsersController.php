@@ -39,15 +39,15 @@ class UsersController extends Controller {
 
     // Create user
     public function create() {
-        if($this->io->method() == 'post') {
+        if ($this->io->method() == 'post') {
             $data = [
                 'first_name' => $this->io->post('first_name'),
                 'last_name'  => $this->io->post('last_name'),
                 'email'      => $this->io->post('email')
             ];
 
-            if($this->UsersModel->insert($data)) {
-                redirect('users'); // <-- ensures consistent pagination
+            if ($this->UsersModel->insert($data)) {
+                redirect('users'); // ensures consistent pagination
             } else {
                 echo 'Error adding user';
             }
@@ -60,14 +60,14 @@ class UsersController extends Controller {
     public function update($id) {
         $data['user'] = $this->UsersModel->find($id);
 
-        if($this->io->method() == 'post') {
+        if ($this->io->method() == 'post') {
             $dataUpdate = [
                 'first_name' => $this->io->post('first_name'),
                 'last_name'  => $this->io->post('last_name'),
                 'email'      => $this->io->post('email')
             ];
 
-            if($this->UsersModel->update($id, $dataUpdate)) {
+            if ($this->UsersModel->update($id, $dataUpdate)) {
                 redirect('users');
             } else {
                 echo 'Error updating user';
@@ -79,7 +79,7 @@ class UsersController extends Controller {
 
     // Delete user
     public function delete($id) {
-        if($this->UsersModel->delete($id)) {
+        if ($this->UsersModel->delete($id)) {
             redirect('users');
         } else {
             echo 'Error deleting user';
@@ -88,7 +88,7 @@ class UsersController extends Controller {
 
     // Soft delete
     public function softDelete($id) {
-        if($this->UsersModel->softDelete($id)) {
+        if ($this->UsersModel->softDelete($id)) {
             redirect('users');
         } else {
             echo 'Error soft deleting user';
@@ -121,7 +121,7 @@ class UsersController extends Controller {
 
     // Restore single user
     public function retrieve($id) {
-        if($this->UsersModel->restore($id)) {
+        if ($this->UsersModel->restore($id)) {
             redirect('users/restore');
         } else {
             echo 'Error restoring user';

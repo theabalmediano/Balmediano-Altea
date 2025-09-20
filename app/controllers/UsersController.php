@@ -48,7 +48,7 @@ class UsersController extends Controller {
             $page,
             site_url() . '?q=' . urlencode($q)
         );
-        $data['page'] = $this->pagination->paginate();
+        $data['pagination'] = $this->pagination->paginate();
 
         $this->call->view('users/index', $data);
     }

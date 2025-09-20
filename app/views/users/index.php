@@ -114,13 +114,14 @@
       </div>
 
       <!-- Pagination -->
-      <?php if(isset($page) && !empty($page)): 
-    echo str_replace(
-      ['<ul>', '</ul>', '<li>', '</li>', '<a', '</a>'],
-      ['<div class="flex space-x-2">', '</div>', '', '', '<a class="px-3 py-1 rounded-full bg-pink-50/80 text-pink-900 shadow hover:bg-pink-100 transition cursor-pointer"', '</a>'],
-      $page
-    );
-    endif; ?>
+    <?php if(isset($pagination) && !empty($pagination)): ?>
+    <?= str_replace(
+        ['<ul>', '</ul>', '<li>', '</li>', '<a', '</a>'],
+        ['<div class="flex space-x-2">', '</div>', '', '', '<a class="px-3 py-1 rounded-full bg-pink-50/80 text-pink-900 shadow hover:bg-pink-100 transition cursor-pointer"', '</a>'],
+        $pagination
+    ); ?>
+<?php endif; ?>
+
       </div>
 
     </div>

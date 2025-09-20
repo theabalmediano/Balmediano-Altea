@@ -1,46 +1,72 @@
 <?php
 defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
-class Usersmodel extends Model {
+class UsersModel extends Model {
     protected $table = 'students';
-    protected $primary_key = 'id';
-    protected $allowed_fields = ['fname', 'lname', 'email'];
-    protected $validation_rules = [
-        'fname' => 'required|min_length[2]|max_length[100]',
-        'lname' => 'required|min_length[2]|max_length[100]',
-        'email' => 'required|valid_email|max_length[150]'
+    protected $primaryKey = 'id';
+    protected $allowedFields = ['first_name', 'last_name', 'email'];
+    protected $validationRules = [
+        'first_name' => 'required|min_length[2]|max_length[100]',
+        'last_name'  => 'required|min_length[2]|max_length[100]',
+        'email'      => 'required|valid_email|max_length[150]'
     ];
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
-    public function page($q = '', $records_per_page = null, $page = null)
-    {
-        if (is_null($page)) {
-            // return all without pagination
-            return [
-                'total_rows' => $this->db->table($this->table)->count_all(),
-                'records'    => $this->db->table($this->table)->get_all()
-            ];
-        } else {
-            $query = $this->db->table($this->table);
+    // Paginated list with optional search
+    public function getPaginated($q = '', $recordsPerPage = 5, $page = 1) {
+        $query = $this->db->table($this->table);
 
-            if (!empty($q)) {
-                $query->like('first_name', '%'.$q.'%')
-                     ->or_like('last_name', '%'.$q.'%')
-                      ->or_like('email', '%'.$q.'%');
-            }
-
-            // count total rows
-            $countQuery = clone $query;
-            $data['total_rows'] = $countQuery->select_count('*', 'count')->get()['count'];
-
-            // fetch paginated records
-            $data['records'] = $query->pagination($records_per_page, $page)->get_all();
-
-            return $data;
+        if(!empty($q)) {
+            $query->like('first_name', $q)
+                  ->or_like('last_name', $q)
+                  ->or_like('email', $q);
         }
+
+        // Total rows
+        $totalRows = $query->count_all_results(false);
+
+        // Paginate results
+        $records = $query->limit($recordsPerPage, ($page - 1) * $recordsPerPage)
+                         ->get()
+                         ->getResultArray();
+
+        return [
+            'records'    => $records,
+            'total_rows' => $totalRows
+        ];
+    }
+
+    // For soft delete / restore if needed
+    public function restorePage($q = '', $recordsPerPage = 5, $page = 1) {
+        $query = $this->db->table($this->table)->where('deleted_at IS NOT NULL', null, false);
+
+        if(!empty($q)) {
+            $query->like('first_name', $q)
+                  ->or_like('last_name', $q)
+                  ->or_like('email', $q);
+        }
+
+        $totalRows = $query->count_all_results(false);
+        $records = $query->limit($recordsPerPage, ($page - 1) * $recordsPerPage)
+                         ->get()
+                         ->getResultArray();
+
+        return [
+            'records'    => $records,
+            'total_rows' => $totalRows
+        ];
+    }
+
+    // Soft delete
+    public function softDelete($id) {
+        return $this->update($id, ['deleted_at' => date('Y-m-d H:i:s')]);
+    }
+
+    // Restore
+    public function restore($id) {
+        return $this->update($id, ['deleted_at' => null]);
     }
 }

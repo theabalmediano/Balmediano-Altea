@@ -1,7 +1,7 @@
 <?php
 defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
-class Usersmodel extends Model {
+class UsersModel extends Model {
     protected $table = 'students';
     protected $primary_key = 'id';
     protected $allowed_fields = ['fname', 'lname', 'email'];

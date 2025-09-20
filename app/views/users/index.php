@@ -62,14 +62,14 @@
             </tr>
           </thead>
           <tbody class="text-pink-200 text-sm">
-            <?php foreach($users as $user): ?>
-              <tr id="row-<?= $user['id']; ?>" class="hover:bg-purple-900/40 transition duration-200 rounded-lg">
-                <td class="py-3 px-4 font-medium"><?= $user['id']; ?></td>
-                <td class="py-3 px-4"><?= $user['last_name']; ?></td>
-                <td class="py-3 px-4"><?= $user['first_name']; ?></td>
+            <?php foreach(html_escape($users) as $user): ?>
+              <tr class="hover:bg-purple-900/40 transition duration-200 rounded-lg">
+                <td class="py-3 px-4 font-medium"><?=($user['id']);?></td>
+                <td class="py-3 px-4"><?=($user['last_name']);?></td>
+                <td class="py-3 px-4"><?=($user['first_name']);?></td>
                 <td class="py-3 px-4">
                   <span class="bg-purple-800 text-pink-300 text-sm font-semibold px-3 py-1 rounded-full">
-                    <?= $user['email']; ?>
+                    <?=($user['email']);?>
                   </span>
                 </td>
                 <td class="py-3 px-4 flex justify-center gap-3">
@@ -78,12 +78,11 @@
                      class="bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-amber-500 hover:to-yellow-400 text-black font-semibold px-3 py-1 rounded-full shadow flex items-center gap-1 transition duration-200">
                     <i class="fa-solid fa-pen-to-square"></i> Update
                   </a>
-                  <!-- AJAX Delete Button -->
-                  <button 
-                    class="deleteBtn inline-flex items-center gap-2 bg-gradient-to-r from-red-500 to-pink-600 hover:from-pink-600 hover:to-red-500 text-white px-3 py-1 rounded-full shadow transition-all duration-300"
-                    data-id="<?= $user['id']; ?>">
-                    <i class="fa-solid fa-trash"></i> Delete
-                  </button>
+                  <!-- Delete Button -->
+                  <a href="<?=site_url('users/delete/'.$user['id']);?>"
+                     class="inline-flex items-center gap-2 bg-gradient-to-r from-red-500 to-pink-600 hover:from-pink-600 hover:to-red-500 text-white px-3 py-1 rounded-full shadow transition-all duration-300">
+                     <i class="fa-solid fa-trash"></i> Delete
+                  </a>
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -100,30 +99,6 @@
 
     </div>
   </div>
-
-  <!-- AJAX Delete Script -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-  $(document).on('click', '.deleteBtn', function(){
-      if(!confirm('Delete this user permanently?')) return;
-      const id = $(this).data('id');
-      $.ajax({
-          url: "<?= site_url('users/delete/') ?>" + id,
-          type: "POST",
-          dataType: "json",
-          success: function(res){
-              if(res.status === 'success'){
-                  $("#row-" + id).fadeOut(300,function(){ $(this).remove(); });
-              } else {
-                  alert('Error deleting user.');
-              }
-          },
-          error: function(){
-              alert('Server error.');
-          }
-      });
-  });
-  </script>
 
 </body>
 </html>

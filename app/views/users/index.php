@@ -20,7 +20,7 @@
       background: rgba(255, 240, 245, 0.6);
     }
     .magic-icon {
-      background: linear-gradient(135deg, #f472b6, #a78bfa, #000);
+      background: linear-gradient(135deg, #f472b6, #f9a8d4, #fbcfe8);
       padding: 0.5rem;
       border-radius: 9999px;
       display: inline-flex;
@@ -33,6 +33,17 @@
       0%, 100% { transform: translateY(0px); }
       50% { transform: translateY(-10px); }
     }
+    .btn-pink {
+      background: linear-gradient(to right, #f472b6, #f9a8d4);
+      color: white;
+    }
+    .btn-pink:hover {
+      background: linear-gradient(to right, #f9a8d4, #f472b6);
+    }
+    .pagination a:hover {
+      background-color: #f9a8d4;
+      color: #9d174d;
+    }
   </style>
 </head>
 <body class="min-h-screen relative text-pink-900">
@@ -43,42 +54,37 @@
   <!-- Container -->
   <div class="relative max-w-6xl mx-auto mt-10 px-4 z-10">
 
-    <!-- Header / Search -->
-    <div class="flex justify-between items-center mb-6">
-      <div class="flex items-center gap-3">
-        <div class="magic-icon">
-          <i class="fa-solid fa-wand-magic-sparkles text-white text-2xl"></i>
-        </div>
-        <h1 class="text-3xl font-bold text-pink-900 drop-shadow-lg">💖 Kuromi Pink Directory 💖</h1>
-      </div>
-      <form method="get" action="<?=site_url()?>" class="flex">
-        <input 
-          type="text" 
-          name="q" 
-          value="<?=html_escape($_GET['q'] ?? '')?>" 
-          placeholder="Search student..."
-          class="px-4 py-2 rounded-l-full bg-pink-50/80 text-pink-900 placeholder-pink-400 border border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-500 w-64">
-        <button type="submit" 
-                class="bg-gradient-to-r from-pink-400 via-purple-500 to-black hover:from-pink-500 hover:to-purple-700 text-white px-4 py-2 rounded-r-full shadow-lg transition duration-300">
-          <i class="fa fa-search"></i>
-        </button>
-      </form>
-    </div>
-
-    <!-- Add New User Button -->
-    <div class="flex justify-end mb-6">
-      <a href="<?=site_url('users/create')?>"
-         class="inline-flex items-center gap-2 bg-gradient-to-r from-pink-400 via-purple-500 to-black hover:from-pink-500 hover:to-purple-700 text-white font-bold px-5 py-2 rounded-full shadow-lg transition-all duration-300 hover:scale-105">
-        <i class="fa-solid fa-user-plus"></i> Add New User
-      </a>
-    </div>
-
     <!-- User Table Card -->
     <div class="bg-white/40 backdrop-blur-2xl rounded-3xl p-6 border border-pink-200 shadow-2xl">
+
+      <!-- Search & Add Button Above Table -->
+      <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-3">
+        <!-- Search -->
+        <form method="get" action="<?=site_url()?>" class="flex w-full md:w-auto">
+          <input 
+            type="text" 
+            name="q" 
+            value="<?=html_escape($_GET['q'] ?? '')?>" 
+            placeholder="Search student..."
+            class="px-4 py-2 rounded-l-full bg-pink-50/80 text-pink-900 placeholder-pink-400 border border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-500 w-full md:w-64">
+          <button type="submit" 
+                  class="px-4 py-2 rounded-r-full shadow-lg btn-pink transition duration-300">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+
+        <!-- Add New User -->
+        <a href="<?=site_url('users/create')?>"
+           class="inline-flex items-center gap-2 font-bold px-5 py-2 rounded-full shadow-lg btn-pink transition-all duration-300 hover:scale-105">
+          <i class="fa-solid fa-user-plus"></i> Add New User
+        </a>
+      </div>
+
+      <!-- Table -->
       <div class="overflow-x-auto rounded-2xl border border-pink-300 shadow-lg">
         <table class="w-full text-center border-collapse">
           <thead>
-            <tr class="bg-gradient-to-r from-pink-400 via-purple-500 to-black text-white text-sm uppercase tracking-wide rounded-t-3xl">
+            <tr class="bg-gradient-to-r from-pink-400 via-pink-300 to-pink-500 text-white text-sm uppercase tracking-wide rounded-t-3xl">
               <th class="py-3 px-4">ID</th>
               <th class="py-3 px-4">Lastname</th>
               <th class="py-3 px-4">Firstname</th>
@@ -99,11 +105,11 @@
                 </td>
                 <td class="py-3 px-4 flex justify-center gap-3">
                   <a href="<?=site_url('users/update/'.$user['id']);?>"
-                     class="bg-gradient-to-r from-pink-400 via-purple-500 to-black text-white font-semibold px-3 py-1 rounded-full shadow flex items-center gap-1 transition duration-200 hover:scale-105">
+                     class="px-3 py-1 rounded-full shadow btn-pink flex items-center gap-1 transition duration-200 hover:scale-105">
                     <i class="fa-solid fa-pen-to-square"></i> Update
                   </a>
                   <a href="<?=site_url('users/delete/'.$user['id']);?>"
-                     class="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-500 text-white px-3 py-1 rounded-full shadow transition-all duration-300 hover:scale-105">
+                     class="inline-flex items-center gap-2 px-3 py-1 rounded-full shadow btn-pink transition-all duration-300 hover:scale-105">
                      <i class="fa-solid fa-trash"></i> Delete
                   </a>
                 </td>
@@ -114,16 +120,14 @@
       </div>
 
       <!-- Pagination -->
-      <div class="mt-4 flex justify-center">
-        <div class="flex space-x-2">
-          <?php if(!empty($page)): 
-              echo str_replace(
-                ['<ul>', '</ul>', '<li>', '</li>', '<a', '</a>'],
-                ['<div class="flex space-x-2">', '</div>', '', '', '<a class="px-3 py-1 rounded-full bg-pink-50/80 text-pink-900 shadow hover:bg-pink-100 transition cursor-pointer"', '</a>'],
-                $page
-              );
-          endif; ?>
-        </div>
+      <div class="mt-4 flex justify-center pagination">
+        <?php if(!empty($page)): 
+            echo str_replace(
+              ['<ul>', '</ul>', '<li>', '</li>', '<a', '</a>'],
+              ['<div class="flex space-x-2">', '</div>', '', '', '<a class="px-3 py-1 rounded-full bg-pink-50/80 text-pink-900 shadow transition cursor-pointer"', '</a>'],
+              $page
+            );
+        endif; ?>
       </div>
 
     </div>

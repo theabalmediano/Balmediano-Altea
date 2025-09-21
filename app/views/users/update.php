@@ -1,16 +1,15 @@
 <?php
 defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Update</title>
+  <title>Update Student - Kuromi Pink Coquette</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="<?=base_url();?>/public/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <!-- Cute Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -21,48 +20,92 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
       background-attachment: fixed;
     }
     .overlay {
-      background: rgba(255, 240, 245, 0.75); /* pastel pink overlay */
+      background: rgba(255, 240, 245, 0.6);
+    }
+    .magic-icon {
+      background: linear-gradient(135deg, #f472b6, #f9a8d4, #fbcfe8);
+      padding: 0.6rem;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .btn-pink {
+      background: linear-gradient(to right, #f472b6, #f9a8d4);
+      color: white;
+    }
+    .btn-pink:hover {
+      background: linear-gradient(to right, #f9a8d4, #f472b6);
+    }
+    .input-pink {
+      background-color: rgba(255, 240, 245, 0.8);
+    }
+    .input-pink:hover {
+      background-color: rgba(249, 168, 212, 0.3);
     }
   </style>
 </head>
-<body class="min-h-screen flex items-center justify-center text-gray-800 relative">
+<body class="min-h-screen flex items-center justify-center relative text-pink-900">
 
   <!-- Overlay -->
   <div class="absolute inset-0 overlay"></div>
 
-  <!-- Card -->
-  <div class="relative z-10 bg-white/60 backdrop-blur-xl p-8 rounded-3xl shadow-2xl w-full max-w-md border border-pink-200 animate-fadeIn">
-    <h2 class="text-2xl font-bold text-center text-pink-900 mb-6">Update Your Info ✨</h2>
-
-    <form action="<?=site_url('users/update/'.$user['id'])?>" method="POST" class="space-y-5">
+  <!-- Container -->
+  <div class="relative w-full max-w-md mx-auto p-6 z-10">
+    <div class="bg-white/40 backdrop-blur-2xl rounded-3xl p-8 border border-pink-200 shadow-2xl">
       
-      <!-- First Name -->
-      <div>
-        <label class="block text-pink-900 mb-1 font-medium">First Name</label>
-        <input type="text" name="first_name" value="<?= html_escape($user['first_name'])?>" required
-               class="w-full px-4 py-3 bg-white/80 text-pink-900 placeholder-pink-400 border border-pink-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:outline-none shadow-md">
+      <!-- Header -->
+      <div class="flex flex-col items-center mb-6">
+        <div class="magic-icon mb-3">
+          <i class="fa-solid fa-wand-magic-sparkles text-white text-3xl"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-pink-900">Update Student Info ✨</h2>
+        <p class="text-pink-700 text-sm italic mt-1">Make your profile magical & fresh!</p>
       </div>
 
-      <!-- Last Name -->
-      <div>
-        <label class="block text-pink-900 mb-1 font-medium">Last Name</label>
-        <input type="text" name="last_name" value="<?= html_escape($user['last_name'])?>" required
-               class="w-full px-4 py-3 bg-white/80 text-pink-900 placeholder-pink-400 border border-pink-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:outline-none shadow-md">
-      </div>
+      <!-- Update Form -->
+      <form action="<?=site_url('users/update/'.$user['id'])?>" method="POST" class="space-y-5">
+        <!-- First Name -->
+        <div>
+          <label class="block mb-1 font-semibold text-pink-900">First Name</label>
+          <input type="text" name="first_name" value="<?= html_escape($user['first_name'])?>" required
+                 class="w-full px-4 py-3 rounded-full border border-pink-300 input-pink text-pink-900 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-500 transition">
+        </div>
 
-      <!-- Email -->
-      <div>
-        <label class="block text-pink-900 mb-1 font-medium">Email Address</label>
-        <input type="email" name="email" value="<?= html_escape($user['email'])?>" required
-               class="w-full px-4 py-3 bg-white/80 text-pink-900 placeholder-pink-400 border border-pink-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:outline-none shadow-md">
-      </div>
+        <!-- Last Name -->
+        <div>
+          <label class="block mb-1 font-semibold text-pink-900">Last Name</label>
+          <input type="text" name="last_name" value="<?= html_escape($user['last_name'])?>" required
+                 class="w-full px-4 py-3 rounded-full border border-pink-300 input-pink text-pink-900 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-500 transition">
+        </div>
 
-      <!-- Button -->
-      <button type="submit"
-              class="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-black hover:from-pink-600 hover:to-purple-700 text-white font-semibold py-3 rounded-xl shadow-lg transition duration-300 transform hover:scale-105">
-        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Update
-      </button>
-    </form>
+        <!-- Email -->
+        <div>
+          <label class="block mb-1 font-semibold text-pink-900">Email Address</label>
+          <input type="email" name="email" value="<?= html_escape($user['email'])?>" required
+                 class="w-full px-4 py-3 rounded-full border border-pink-300 input-pink text-pink-900 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-500 transition">
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex flex-col sm:flex-row gap-3 mt-6">
+          <button type="submit"
+                  class="flex-1 px-5 py-3 rounded-full font-semibold shadow-lg btn-pink transition-all duration-300 hover:scale-105">
+            <i class="fa-solid fa-heart mr-2"></i> Update
+          </button>
+          <a href="<?=site_url()?>"
+             class="flex-1 px-5 py-3 rounded-full font-semibold shadow-lg bg-pink-50/80 text-pink-900 border border-pink-300 hover:bg-pink-100 transition duration-300 text-center">
+            <i class="fa-solid fa-arrow-left mr-2"></i> Back
+          </a>
+        </div>
+      </form>
+    </div>
   </div>
+
 </body>
 </html>

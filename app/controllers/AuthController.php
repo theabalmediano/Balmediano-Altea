@@ -12,7 +12,7 @@ class AuthController extends Controller
             $role = $this->io->post('role') ?? 'user';
 
             if ($this->auth->register($username, $password, $role)) {
-                redirect('/students');
+                redirect('/users');
             }
         }
 
@@ -31,7 +31,7 @@ class AuthController extends Controller
 
             // check role and redirect accordingly
             if ($this->auth->has_role('admin')) {
-                redirect('/students'); // full access page
+                redirect('/users'); // full access page
             } else {
                 redirect('auth/dashboard'); // user view-only page
             }
@@ -60,8 +60,8 @@ public function dashboard()
 
         $records_per_page = 5;
 
-        $all = $this->StudentsModel->page($q, $records_per_page, $page);
-        $data['students'] = $all['records'];
+        $all = $this->UsersModel->page($q, $records_per_page, $page);
+        $data['users'] = $all['records'];
         $total_rows = $all['total_rows'];
 
         // Pagination setup
@@ -78,11 +78,11 @@ public function dashboard()
             $total_rows,
             $records_per_page,
             $page,
-            site_url('/students') . '?q=' . urlencode($q)
+            site_url('/users') . '?q=' . urlencode($q)
         );
         $data['page'] = $this->pagination->paginate();
 
-        $this->call->view('students/index', $data);
+        $this->call->view('users/index', $data);
         
     $this->call->library('auth');
 
@@ -93,7 +93,7 @@ public function dashboard()
     $role = $_SESSION['role'] ?? 'user';
 
     if ($role === 'admin') {
-        redirect('/students');
+        redirect('/users'); // full access page
     }
 
 }

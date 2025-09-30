@@ -104,12 +104,12 @@
     function validatePassword() {
       if (pwRegex.test(pwInput.value)) {
         pwHelp.textContent = 'Password meets requirements.';
-        pwHelp.classList.remove('text-red-600');
-        pwHelp.classList.add('text-green-600');
+        pwHelp.classList.remove('text-red-300');
+        pwHelp.classList.add('text-green-300');
       } else {
         pwHelp.textContent = 'At least 8 letters with uppercase, lowercase, number & symbol.';
-        pwHelp.classList.remove('text-green-600');
-        pwHelp.classList.add('text-red-600');
+        pwHelp.classList.remove('text-green-300');
+        pwHelp.classList.add('text-red-300');
       }
       validateConfirm();
     }
@@ -117,18 +117,18 @@
     function validateConfirm() {
       if (!confirmInput.value) {
         confirmHelp.textContent = 'At least 8 letters with uppercase, lowercase, number & symbol.';
-        confirmHelp.classList.remove('text-green-600');
-        confirmHelp.classList.add('text-red-600');
+        confirmHelp.classList.remove('text-green-300');
+        confirmHelp.classList.add('text-red-300');
         return;
       }
       if (pwInput.value === confirmInput.value && pwRegex.test(confirmInput.value)) {
         confirmHelp.textContent = 'Passwords match.';
-        confirmHelp.classList.remove('text-red-600');
-        confirmHelp.classList.add('text-green-600');
+        confirmHelp.classList.remove('text-red-300');
+        confirmHelp.classList.add('text-green-300');
       } else {
         confirmHelp.textContent = 'Passwords do not match or are invalid.';
-        confirmHelp.classList.remove('text-green-600');
-        confirmHelp.classList.add('text-red-600');
+        confirmHelp.classList.remove('text-green-300');
+        confirmHelp.classList.add('text-red-300');
       }
     }
 

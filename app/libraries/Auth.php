@@ -16,6 +16,33 @@ class Auth
 
     public function register($username, $password, $role = 'user')
     {
+        $errors = [];
+
+        // 1️⃣ Password length
+        if(strlen($password) < 8){
+            $errors[] = "Password must be at least 8 characters.";
+        }
+
+        // 2️⃣ Password complexity: uppercase, lowercase, number, special char
+        if(!preg_match('/[A-Z]/', $password) || 
+           !preg_match('/[a-z]/', $password) || 
+           !preg_match('/[0-9]/', $password) || 
+           !preg_match('/[\W]/', $password)){
+            $errors[] = "Password must include uppercase, lowercase, number, and special character.";
+        }
+
+        // 3️⃣ Username already exists?
+        $existing = $this->db->table('users')->where('username', $username)->get();
+        if($existing){
+            $errors[] = "Username already taken.";
+        }
+
+        if(!empty($errors)){
+            $this->session->set_userdata('register_errors', $errors);
+            return false;
+        }
+
+        // Hash password and insert
         $hash = password_hash($password, PASSWORD_DEFAULT);
         return $this->db->table('users')->insert([
             'username' => $username,
@@ -31,16 +58,24 @@ class Auth
                          ->where('username', $username)
                          ->get();
 
-        if ($user && password_verify($password, $user['password'])) {
-            $this->session->set_userdata([
-                'user_id' => $user['id'],
-                'username' => $user['username'],
-                'role' => $user['role'],
-                'logged_in' => true
-            ]);
-            return true;
+        if (!$user){
+            $this->session->set_userdata('login_errors', ["Username not found"]);
+            return false;
         }
-        return false;
+
+        if (!password_verify($password, $user['password'])){
+            $this->session->set_userdata('login_errors', ["Password is incorrect"]);
+            return false;
+        }
+
+        // Successful login
+        $this->session->set_userdata([
+            'user_id' => $user['id'],
+            'username' => $user['username'],
+            'role' => $user['role'],
+            'logged_in' => true
+        ]);
+        return true;
     }
 
     public function is_logged_in()

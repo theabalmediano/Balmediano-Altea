@@ -13,7 +13,10 @@ class AuthController extends Controller
             if ($this->auth->register($username, $password, $role)) {
                 redirect('/auth/login');
             } else {
-                // Optional: Show registration error message here
+                 $data['errors'] = $this->auth->session->userdata('register_errors') ?? [];
+                $this->auth->session->unset_userdata('register_errors');
+                $this->call->view('auth/register', $data);
+                return;
             }
         }
 
@@ -36,7 +39,10 @@ class AuthController extends Controller
                     redirect('auth/dashboard');  // User view-only page
                 }
             } else {
-                echo 'Login failed!';
+                $data['errors'] = $this->auth->session->userdata('login_errors') ?? [];
+                $this->auth->session->unset_userdata('login_errors');
+                $this->call->view('auth/login', $data);
+                return;
             }
         }
 

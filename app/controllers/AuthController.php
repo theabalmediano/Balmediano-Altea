@@ -101,6 +101,6 @@ class AuthController extends Controller
     {
         $this->call->library('auth');
         $this->auth->logout();
-        redirect('/auth/login');
+        redirect('/auth/register');
     }
 }

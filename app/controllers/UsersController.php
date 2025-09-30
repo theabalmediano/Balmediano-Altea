@@ -41,18 +41,11 @@ class UsersController extends Controller {
         ]);
 
         $this->pagination->set_theme('default');
-
-        // Build base URL for pagination links
-        $base_url = site_url('/users');
-        if (!empty($q)) {
-            $base_url .= '?q=' . urlencode($q);
-        }
-
         $this->pagination->initialize(
             $total_rows,
             $records_per_page,
             $page,
-            $base_url
+            site_url('/users') . '?q=' . urlencode($q)
         );
         $data['page'] = $this->pagination->paginate();
 

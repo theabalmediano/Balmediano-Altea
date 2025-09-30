@@ -58,40 +58,24 @@ class UsersModel extends Model {
             $query = $this->db->table($this->table);
 
             if (!empty($q)) {
+                $q = trim($q);
                 // Group the OR LIKE conditions for search
-                $query->group_start()
-                      ->like('first_name', $q)
+                $query->like('id', $q)
+                      ->or_like('first_name', $q)
                       ->or_like('last_name', $q)
-                      ->or_like('email', $q)
-                      ->group_end();
+                      ->or_like('email', $q);
             }
 
-            // Clone query for count
+            // count total rows
             $countQuery = clone $query;
-            $countQuery->select('COUNT(*) as count');
-            $countResult = $countQuery->get();
-            $total_rows = isset($countResult[0]['count']) ? (int)$countResult[0]['count'] : 0;
+            $data['total_rows'] = $countQuery->select_count('*', 'count')->get()['count'];
 
-            // Calculate offset for limit
-            $offset = ($page - 1) * $records_per_page;
+            // fetch paginated records
+            $data['records'] = $query->pagination($records_per_page, $page)->get_all();
 
-            // Get paginated records
-            $records = $query
-                ->limit($records_per_page, $offset)
-                ->get_all();
-
-            return [
-                'total_rows' => $total_rows,
-                'records' => $records
-            ];
+            return $data;
+            
         }
     }
 
-    /**
-     * Get all records from the table
-     */
-    public function get_all()
-    {
-        return $this->db->table($this->table)->get_all();
-    }
 }

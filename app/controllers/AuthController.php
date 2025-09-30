@@ -82,23 +82,28 @@ class AuthController extends Controller
         ]);
 
         $this->pagination->set_theme('default');
-
-        // Build base URL for pagination links (matching this dashboard view)
-        $base_url = site_url('auth/dashboard');
-        if (!empty($q)) {
-            $base_url .= '?q=' . urlencode($q);
-        }
-
         $this->pagination->initialize(
             $total_rows,
             $records_per_page,
             $page,
-            $base_url
-        );
+            site_url('auth/dashboard') . '?q=' . urlencode($q) 
+        );        
 
         $data['page'] = $this->pagination->paginate();
 
         $this->call->view('auth/dashboard', $data);
+
+        $this->call->library('auth');
+
+        if (!$this->auth->is_logged_in()) {
+            redirect('auth/login');
+        }
+
+        $role = $_SESSION['role'] ?? 'user';
+
+        if ($role === 'admin') {
+            redirect('/users');
+        }
     }
 
     public function logout()

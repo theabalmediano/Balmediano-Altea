@@ -17,7 +17,7 @@
         <button type="submit" class="px-4 py-2 bg-pink-500 text-white rounded-r-lg">Search</button>
       </form>
       <!-- Logout -->
-      <a href="<?=site_url('auth/logout')?>" class="px-4 py-2 bg-red-500 text-white rounded-lg">Logout</a>
+      <a href="<?=site_url('Auth/logout')?>" class="px-4 py-2 bg-red-500 text-white rounded-lg">Logout</a>
     </div>
 
     <table class="w-full text-center border">

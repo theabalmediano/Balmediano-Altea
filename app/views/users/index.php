@@ -125,7 +125,7 @@ $role = $_SESSION['role'] ?? null;
       type="text" 
       name="q" 
       value="<?=html_escape($_GET['q'] ?? '')?>" 
-      placeholder="Search student..." 
+      placeholder="Search user..." 
       class="px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-64">
     <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-r-lg shadow transition-all duration-300">
       🔍
@@ -135,7 +135,7 @@ $role = $_SESSION['role'] ?? null;
 
     <div class="container">
         <div class="header">
-            <h1 class="text-4xl font-bold text-left">Students List</h1>
+            <h1 class="text-4xl font-bold text-left">User List</h1>
             <?php if ($_SESSION['role'] === 'admin'): ?>
             <a class="create-btn" href="<?=site_url('users/create');?>">Create Record</a>
             <?php endif; ?>
@@ -163,8 +163,8 @@ $role = $_SESSION['role'] ?? null;
                     <td>
                         <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
 
-                        <a class="update-btn" href="<?= site_url('users/update/'.$student['id']); ?>">Update</a> | 
-                        <a class="delete-btn" href="<?= site_url('users/delete/'.$student['id']); ?>">Delete</a>
+                        <a class="update-btn" href="<?= site_url('users/update/'.$user['id']); ?>">Update</a> | 
+                        <a class="delete-btn" href="<?= site_url('users/delete/'.$user['id']); ?>">Delete</a>
                         <?php endif; ?>
                     </td>
                     <?php endif; ?>

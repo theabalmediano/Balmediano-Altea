@@ -83,13 +83,13 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 <body>
     
 <!-- Search Bar -->
-<form method="get" action="<?=site_url('/students')?>" class="mb-4 flex justify-end" style="margin-right: 0.9in;">
+<form method="get" action="<?=site_url('/users')?>" class="mb-4 flex justify-end" style="margin-right: 0.9in;">
 
     <input 
       type="text" 
       name="q" 
       value="<?=html_escape($_GET['q'] ?? '')?>" 
-      placeholder="Search student..." 
+      placeholder="Search users..." 
       class="px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-64">
     <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-r-lg shadow transition-all duration-300">
       🔍
@@ -99,7 +99,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
     <div class="container">
         <div class="header">
-            <h1 class="text-4xl font-bold text-left">Students List</h1>
+            <h1 class="text-4xl font-bold text-left">User List</h1>
         </div>
 
         <table>
@@ -109,11 +109,11 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
                 <th>Lastname</th>
                 <th>Email</th>
             </tr>
-            <?php foreach(html_escape($students) as $student): ?>
+            <?php foreach(html_escape($users) as $user): ?>
                 <tr>
-                    <td><?= $student['id']; ?></td>
-                    <td><?= $student['first_name']; ?></td>
-                    <td><?= $student['last_name']; ?></td>
+                    <td><?= $user['id']; ?></td>
+                    <td><?= $user['first_name']; ?></td>
+                    <td><?= $user['last_name']; ?></td>
                     <td><?= $student['email']; ?></td>
                 </tr>
             <?php endforeach; ?>

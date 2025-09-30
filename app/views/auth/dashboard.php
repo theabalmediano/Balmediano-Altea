@@ -111,10 +111,10 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
             </tr>
             <?php foreach(html_escape($users) as $user): ?>
                 <tr>
-                    <td><?= $user['id']; ?></td>
-                    <td><?= $user['first_name']; ?></td>
-                    <td><?= $user['last_name']; ?></td>
-                    <td><?= $student['email']; ?></td>
+                    <td><?= $users['id']; ?></td>
+                    <td><?= $users['first_name']; ?></td>
+                    <td><?= $users['last_name']; ?></td>
+                    <td><?= $users['email']; ?></td>
                 </tr>
             <?php endforeach; ?>
         </table>
@@ -127,7 +127,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
             </div>
 
             <!-- Logout button right -->
-            <a class="logout-btn bg-red-500 hover:bg-red-600" href="<?=site_url('auth/logout');?>">Logout</a>
+            <a class="create-btn bg-red-500 hover:bg-red-600" href="<?=site_url('auth/logout');?>">Logout</a>
         </div>
 
     </div>

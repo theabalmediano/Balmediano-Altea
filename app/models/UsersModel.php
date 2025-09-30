@@ -1,16 +1,32 @@
 <?php
 defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
-class Usersmodel extends Model {
+/**
+ * Model: StudentsModel
+ * 
+ * Automatically generated via CLI.
+ */
+class UsersModel extends Model {
+
+    /**
+     * Table associated with the model.
+     * @var string
+     */
     protected $table = 'students';
-    protected $primary_key = 'id';
-    protected $allowed_fields = ['last_name', 'first_name', 'email'];
+
+    /**
+     * Primary key of the table.
+     * @var string
+     */
+
+    protected $allowed_fields = ['first_name', 'last_name', 'email'];
     protected $validation_rules = [
-        
-        'last_name' => 'required|min_length[2]|max_length[100]',
         'first_name' => 'required|min_length[2]|max_length[100]',
+        'last_name' => 'max_length[100]',
         'email' => 'required|valid_email|max_length[150]'
     ];
+
+    protected $primary_key = 'id';
 
     public function __construct()
     {
@@ -29,15 +45,10 @@ class Usersmodel extends Model {
             $query = $this->db->table($this->table);
 
             if (!empty($q)) {
-                $q = trim($q);
-                $query->like('id', $q)
-                    ->or_like('last_name', $q)
-                    ->or_like('first_name', $q)
-                    ->or_like('email', $q);
+                $query->like('first_name', '%'.$q.'%')
+                      ->or_like('last_name', '%'.$q.'%')
+                      ->or_like('email', '%'.$q.'%');
             }
-
-
-
 
             // count total rows
             $countQuery = clone $query;
@@ -48,5 +59,11 @@ class Usersmodel extends Model {
 
             return $data;
         }
+        
+    }
+
+     public function get_all()
+    {
+        return $this->db->table('users')->get_all();
     }
 }

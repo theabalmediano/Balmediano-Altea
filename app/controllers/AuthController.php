@@ -1,7 +1,6 @@
 <?php
 class AuthController extends Controller
 {
-
     public function register()
     {
         $this->call->library('auth');
@@ -13,6 +12,8 @@ class AuthController extends Controller
 
             if ($this->auth->register($username, $password, $role)) {
                 redirect('/auth/login');
+            } else {
+                // Optional: Show registration error message here
             }
         }
 
@@ -20,58 +21,56 @@ class AuthController extends Controller
     }
 
     public function login()
-{
-    $this->call->library('auth');
+    {
+        $this->call->library('auth');
 
-    if ($this->io->method() == 'post') {
-        $username = $this->io->post('username');
-        $password = $this->io->post('password');
+        if ($this->io->method() == 'post') {
+            $username = $this->io->post('username');
+            $password = $this->io->post('password');
 
-        if ($this->auth->login($username, $password)) {
-
-            // check role and redirect accordingly
-            if ($this->auth->has_role('admin')) {
-                redirect('/users'); // full access page
+            if ($this->auth->login($username, $password)) {
+                // Redirect based on role
+                if ($this->auth->has_role('admin')) {
+                    redirect('/users');  // Full access page
+                } else {
+                    redirect('auth/dashboard');  // User view-only page
+                }
             } else {
-                redirect('auth/dashboard'); // user view-only page
+                echo 'Login failed!';
             }
-
-        } else {
-            echo 'Login failed!';
         }
+
+        $this->call->view('auth/login');
     }
 
-    $this->call->view('auth/login');
-}
+    public function dashboard()
+    {
+        $this->call->library('auth');
 
+        if (!$this->auth->is_logged_in()) {
+            redirect('auth/login');
+            exit;
+        }
 
-public function dashboard()
-{
-    $this->call->library('auth');
+        $role = $_SESSION['role'] ?? 'user';
 
-    if (!$this->auth->is_logged_in()) {
-        redirect('auth/login');
-    }
+        // Admins redirect to /users
+        if ($role === 'admin') {
+            redirect('/users');
+            exit;
+        }
 
-    $role = $_SESSION['role'] ?? 'user';
+        // --- USER VIEW (students list with search + pagination) ---
+        $this->call->model('UsersModel');
 
-    // admin → redirect to /users
-    if ($role === 'admin') {
-        redirect('/users');
-    }
+        $page = isset($_GET['page']) ? (int) $this->io->get('page') : 1;
+        $q = isset($_GET['q']) ? trim($this->io->get('q')) : '';
 
-    // --- USER VIEW (students list with search + pagination) ---
-    $this->call->model('UsersModel');
+        $records_per_page = 5;
 
-
-    $page = isset($_GET['page']) ? (int) $this->io->get('page') : 1;
-    $q = isset($_GET['q']) ? trim($this->io->get('q')) : '';
-
-    $records_per_page = 5;
-
-    $all = $this->UsersModel->page($q, $records_per_page, $page);
-    $data['users'] = $all['records'];
-    $total_rows = $all['total_rows'];
+        $all = $this->UsersModel->page($q, $records_per_page, $page);
+        $data['users'] = $all['records'];
+        $total_rows = $all['total_rows'];
 
         // Pagination setup
         $this->pagination->set_options([
@@ -83,39 +82,31 @@ public function dashboard()
         ]);
 
         $this->pagination->set_theme('default');
+
+        // Build base URL for pagination links (matching this dashboard view)
+        $base_url = site_url('auth/dashboard');
+        if (!empty($q)) {
+            $base_url .= '?q=' . urlencode($q);
+        }
+
         $this->pagination->initialize(
             $total_rows,
             $records_per_page,
             $page,
-            site_url('/users') . '?q=' . urlencode($q)
+            $base_url
         );
+
         $data['page'] = $this->pagination->paginate();
 
-          // Load the correct dashboard view
-    $this->call->view('auth/dashboard', $data);
-        
-    $this->call->library('auth');
-
-    if (!$this->auth->is_logged_in()) {
-        redirect('auth/login');
+        $this->call->view('auth/dashboard', $data);
     }
-
-    $role = $_SESSION['role'] ?? 'user';
-
-    if ($role === 'admin') {
-        redirect('/users');
-    }
-
-}
-
-
 
     public function logout()
     {
         $this->call->library('auth');
         $this->auth->logout();
         redirect('auth/login');
+        exit;
     }
-    
 }
 ?>

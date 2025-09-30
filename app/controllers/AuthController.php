@@ -6,11 +6,13 @@ class AuthController extends Controller
         $this->call->library('auth');
 
         if ($this->io->method() == 'post') {
-            $username = $this->io->post('username');
+            $username = trim($this->io->post('username'));
             $password = $this->io->post('password');
+            $confirm_password = $this->io->post('confirm_password');
             $role = $this->io->post('role') ?? 'user';
 
-            if ($this->auth->register($username, $password, $role)) {
+            // Call Auth library with confirm password
+            if ($this->auth->register($username, $password, $confirm_password, $role)) {
                 redirect('/auth/login');
                 return;
             } else {
@@ -28,14 +30,15 @@ class AuthController extends Controller
         $this->call->library('auth');
 
         if ($this->io->method() == 'post') {
-            $username = $this->io->post('username');
+            $username = trim($this->io->post('username'));
             $password = $this->io->post('password');
 
             if ($this->auth->login($username, $password)) {
+                // Redirect based on role
                 if ($this->auth->has_role('admin')) {
-                    redirect('/users');
+                    redirect('/users'); // Admin dashboard
                 } else {
-                    redirect('auth/dashboard');
+                    redirect('auth/dashboard'); // User dashboard
                 }
                 return;
             } else {

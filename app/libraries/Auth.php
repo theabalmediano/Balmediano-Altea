@@ -6,24 +6,26 @@ class Auth
 
     public function __construct()
     {
-        $lava = lava_instance();   // get LavaLust instance
-        $lava->call->database();   // initialize database
-        $lava->call->library('session'); // initialize session
+        $lava = lava_instance();
+        $lava->call->database();
+        $lava->call->library('session');
 
-        $this->db = $lava->db;          
+        $this->db = $lava->db;
         $this->session = $lava->session;
     }
 
-    public function register($username, $password, $role = 'user')
+    public function register($username, $password, $confirm_password = null, $role = 'user')
     {
         $errors = [];
 
-        // Password length
+        if ($confirm_password !== null && $password !== $confirm_password) {
+            $errors[] = "Passwords do not match.";
+        }
+
         if(strlen($password) < 8){
             $errors[] = "Password must be at least 8 characters.";
         }
 
-        // Password complexity
         if(!preg_match('/[A-Z]/', $password) || 
            !preg_match('/[a-z]/', $password) || 
            !preg_match('/[0-9]/', $password) || 
@@ -31,7 +33,6 @@ class Auth
             $errors[] = "Password must include uppercase, lowercase, number, and special character.";
         }
 
-        // Username exists?
         $existing = $this->db->table('users')->where('username', $username)->get();
         if($existing){
             $errors[] = "Username already taken.";
@@ -42,7 +43,6 @@ class Auth
             return false;
         }
 
-        // Hash password and insert
         $hash = password_hash($password, PASSWORD_DEFAULT);
         return $this->db->table('users')->insert([
             'username' => $username,
@@ -66,7 +66,6 @@ class Auth
             return false;
         }
 
-        // Successful login
         $this->session->set_userdata([
             'user_id' => $user['id'],
             'username' => $user['username'],
@@ -91,7 +90,6 @@ class Auth
         $this->session->unset_userdata(['user_id','username','role','logged_in']);
     }
 
-    // Getter methods for errors
     public function get_register_errors()
     {
         $errors = $this->session->userdata('register_errors') ?? [];

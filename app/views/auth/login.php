@@ -1,78 +1,90 @@
 <?php
 defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - Student Directory</title>
-
-  <!-- Tailwind & Fonts -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Kuromi Pink Coquette</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=IM+Fell+English&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="<?= base_url(); ?>/public/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="<?=base_url();?>/public/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-  <!-- Custom Styles -->
   <style>
     body {
-      font-family: 'IM Fell English', serif;
-      background-color: #fae5b3;
+      font-family: 'Poppins', sans-serif;
+      background-image: url('https://i.pinimg.com/736x/bf/01/f9/bf01f9444340ecdb37af06d201c6f1cf.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
     }
-    .font-title {
-      font-family: 'Cinzel Decorative', cursive;
-      letter-spacing: 2px;
+    .overlay {
+      background: rgba(255, 240, 245, 0.6);
     }
-    .btn-hover:hover {
-      box-shadow: 0 0 12px gold, 0 0 24px crimson;
-      transform: scale(1.05);
+    .btn-pink {
+      background: linear-gradient(to right, #f472b6, #f9a8d4);
+      color: white;
+      transition: background 0.3s ease;
+    }
+    .btn-pink:hover {
+      background: linear-gradient(to right, #f9a8d4, #f472b6);
+    }
+    .input-pink {
+      background-color: rgba(255, 240, 245, 0.8);
+      transition: background-color 0.3s ease;
+    }
+    .input-pink:hover,
+    .input-pink:focus {
+      background-color: rgba(249, 168, 212, 0.3);
+      outline: none;
+      box-shadow: 0 0 0 2px #f472b6;
     }
   </style>
 </head>
-<body class="min-h-screen flex items-center justify-center">
+<body class="min-h-screen flex items-center justify-center relative">
 
-  <!-- Login Box -->
-  <div class="bg-yellow-50 border-4 border-yellow-700 p-8 rounded-xl shadow-2xl w-full max-w-md">
+  <div class="absolute inset-0 overlay"></div>
 
-    <!-- Title -->
-    <h1 class="text-3xl font-title text-center text-red-900 mb-6 flex items-center justify-center gap-2">
-      <i class="fa-solid fa-hat-wizard text-yellow-600"></i> Login
-    </h1>
+  <div class="relative w-full max-w-sm p-6 z-10">
+    <div class="bg-white/40 backdrop-blur-2xl rounded-3xl p-8 border border-pink-200 shadow-2xl">
 
-    <!-- Form -->
-    <form method="post" class="space-y-5">
-      <input 
-        type="text" 
-        name="username" 
-        placeholder="Username" 
-        required
-        class="w-full px-4 py-3 border-2 border-yellow-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white text-gray-800"
-      >
+      <h2 class="text-2xl font-bold text-center text-pink-900 mb-6">
+        <i class="fa-solid fa-heart text-pink-500 mr-2"></i> Login
+      </h2>
 
-      <input 
-        type="password" 
-        name="password" 
-        placeholder="Password" 
-        required
-        class="w-full px-4 py-3 border-2 border-yellow-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white text-gray-800"
-      >
+      <form method="post" class="space-y-5">
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          required
+          class="w-full px-4 py-3 rounded-full border border-pink-300 input-pink text-pink-900 focus:outline-none focus:ring-2 focus:ring-pink-500"
+        />
 
-      <button 
-        type="submit"
-        class="btn-hover w-full py-3 bg-red-700 hover:bg-red-900 text-yellow-100 font-semibold rounded-lg transition duration-300"
-      >
-        <i class="fa-solid fa-right-to-bracket mr-2"></i> Login
-      </button>
-    </form>
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+          class="w-full px-4 py-3 rounded-full border border-pink-300 input-pink text-pink-900 focus:outline-none focus:ring-2 focus:ring-pink-500"
+        />
 
-    <!-- Register Link -->
-    <p class="text-center text-gray-700 mt-5 text-sm">
-      Don't have an account? 
-      <a href="<?= site_url('/') ?>" class="text-green-700 font-semibold hover:underline">Register</a>
-    </p>
+        <button
+          type="submit"
+          class="w-full py-3 rounded-full font-semibold btn-pink hover:scale-105 transition-all"
+        >
+          <i class="fa-solid fa-right-to-bracket mr-2"></i> Login
+        </button>
+      </form>
 
+      <p class="text-center text-pink-700 mt-5 text-sm">
+        Don’t have an account? 
+        <a href="<?= site_url('/') ?>" class="font-semibold underline hover:text-pink-900">Register</a>
+      </p>
+
+    </div>
   </div>
 
 </body>

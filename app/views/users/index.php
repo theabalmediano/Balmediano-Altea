@@ -170,7 +170,7 @@ $role = $_SESSION['role'] ?? null;
 
 <div class="kuromi-container">
     <div class="flex justify-between items-center mb-6">
-        <h1>💜 Kuromi User List 💜</h1>
+        <h1> Kuromi User List </h1>
         <?php if ($_SESSION['role'] === 'admin'): ?>
             <a class="create-btn" href="<?=site_url('users/create');?>">➕ Add User</a>
         <?php endif; ?>

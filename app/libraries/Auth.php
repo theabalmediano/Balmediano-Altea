@@ -10,20 +10,20 @@ class Auth
         $lava->call->database();   // initialize database
         $lava->call->library('session'); // initialize session
 
-        $this->db = $lava->db;          // assign db property
-        $this->session = $lava->session; // assign session property
+        $this->db = $lava->db;          
+        $this->session = $lava->session;
     }
 
     public function register($username, $password, $role = 'user')
     {
         $errors = [];
 
-        // 1️⃣ Password length
+        // Password length
         if(strlen($password) < 8){
             $errors[] = "Password must be at least 8 characters.";
         }
 
-        // 2️⃣ Password complexity: uppercase, lowercase, number, special char
+        // Password complexity
         if(!preg_match('/[A-Z]/', $password) || 
            !preg_match('/[a-z]/', $password) || 
            !preg_match('/[0-9]/', $password) || 
@@ -31,7 +31,7 @@ class Auth
             $errors[] = "Password must include uppercase, lowercase, number, and special character.";
         }
 
-        // 3️⃣ Username already exists?
+        // Username exists?
         $existing = $this->db->table('users')->where('username', $username)->get();
         if($existing){
             $errors[] = "Username already taken.";
@@ -54,9 +54,7 @@ class Auth
 
     public function login($username, $password)
     {
-        $user = $this->db->table('users')
-                         ->where('username', $username)
-                         ->get();
+        $user = $this->db->table('users')->where('username', $username)->get();
 
         if (!$user){
             $this->session->set_userdata('login_errors', ["Username not found"]);
@@ -91,6 +89,21 @@ class Auth
     public function logout()
     {
         $this->session->unset_userdata(['user_id','username','role','logged_in']);
+    }
+
+    // Getter methods for errors
+    public function get_register_errors()
+    {
+        $errors = $this->session->userdata('register_errors') ?? [];
+        $this->session->unset_userdata('register_errors');
+        return $errors;
+    }
+
+    public function get_login_errors()
+    {
+        $errors = $this->session->userdata('login_errors') ?? [];
+        $this->session->unset_userdata('login_errors');
+        return $errors;
     }
 }
 ?>

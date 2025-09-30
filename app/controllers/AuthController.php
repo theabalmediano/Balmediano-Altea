@@ -23,7 +23,8 @@ class AuthController extends Controller
             }
         }
 
-        $this->call->view('Auth/register');
+        // lowercase 'auth' since your views are in views/auth/
+        $this->call->view('auth/register');
     }
 
     public function login()
@@ -34,17 +35,18 @@ class AuthController extends Controller
 
             if ($this->auth->login($username, $password)) {
                 $role = $_SESSION['role'] ?? 'user';
+
                 if ($role === 'admin') {
                     redirect(site_url('users')); // admin full access
                 } else {
                     redirect(site_url('Auth/dashboard')); // normal user
                 }
-
+            } else {
                 echo "❌ Login failed!";
             }
         }
 
-        $this->call->view('Auth/login');
+        $this->call->view('auth/login');
     }
 
     public function dashboard()
@@ -84,7 +86,8 @@ class AuthController extends Controller
         );
         $data['page'] = $this->pagination->paginate();
 
-        $this->call->view('users/index', $data);
+        // use your own dashboard view for normal users
+        $this->call->view('auth/dashboard', $data);
     }
 
     public function logout()

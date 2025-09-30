@@ -12,7 +12,7 @@ class AuthController extends Controller
             $role = $this->io->post('role') ?? 'user';
 
             if ($this->auth->register($username, $password, $role)) {
-                redirect('/users');
+                redirect('/auth/login');
             }
         }
 
@@ -47,22 +47,31 @@ class AuthController extends Controller
 
 public function dashboard()
 {
-    // All users can view the student list
-        $page = 1;
-        if (isset($_GET['page']) && !empty($_GET['page'])) {
-            $page = $this->io->get('page');
-        }
+    $this->call->library('auth');
 
-        $q = '';
-        if (isset($_GET['q']) && !empty($_GET['q'])) {
-            $q = trim($this->io->get('q'));
-        }
+    if (!$this->auth->is_logged_in()) {
+        redirect('auth/login');
+    }
 
-        $records_per_page = 5;
+    $role = $_SESSION['role'] ?? 'user';
 
-        $all = $this->UsersModel->page($q, $records_per_page, $page);
-        $data['users'] = $all['records'];
-        $total_rows = $all['total_rows'];
+    // admin → redirect to /users
+    if ($role === 'admin') {
+        redirect('/users');
+    }
+
+    // --- USER VIEW (students list with search + pagination) ---
+    $this->call->model('UsersModel');
+
+
+    $page = isset($_GET['page']) ? (int) $this->io->get('page') : 1;
+    $q = isset($_GET['q']) ? trim($this->io->get('q')) : '';
+
+    $records_per_page = 5;
+
+    $all = $this->UsersModel->page($q, $records_per_page, $page);
+    $data['users'] = $all['records'];
+    $total_rows = $all['total_rows'];
 
         // Pagination setup
         $this->pagination->set_options([
@@ -82,7 +91,8 @@ public function dashboard()
         );
         $data['page'] = $this->pagination->paginate();
 
-        $this->call->view('users/index', $data);
+          // Load the correct dashboard view
+    $this->call->view('auth/dashboard', $data);
         
     $this->call->library('auth');
 

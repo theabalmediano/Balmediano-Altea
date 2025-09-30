@@ -1,20 +1,11 @@
 <?php
 defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
-class StudentsController extends Controller {
-
+class UsersController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        
-        // Load necessary libraries
-        $this->call->library('pagination'); 
-        $this->call->library('auth'); // 🔹 load Auth library
-
-        // Check if user is logged in
-        if (!$this->auth->is_logged_in()) {
-            redirect('auth/login');
-        }
+        $this->call->model('UsersModel');
     }
 
     public function index()
@@ -32,8 +23,8 @@ class StudentsController extends Controller {
 
         $records_per_page = 5;
 
-        $all = $this->StudentsModel->page($q, $records_per_page, $page);
-        $data['students'] = $all['records'];
+        $all = $this->UsersModel->page($q, $records_per_page, $page);
+        $data['users'] = $all['records'];
         $total_rows = $all['total_rows'];
 
         // Pagination setup
@@ -50,12 +41,13 @@ class StudentsController extends Controller {
             $total_rows,
             $records_per_page,
             $page,
-            site_url('/students') . '?q=' . urlencode($q)
+            site_url('/users') . '?q=' . urlencode($q)
         );
         $data['page'] = $this->pagination->paginate();
 
-        $this->call->view('students/index', $data);
+        $this->call->view('users/index', $data);
     }
+
 
     function create(){
         if ($_SESSION['role'] !== 'admin') {
@@ -76,13 +68,13 @@ class StudentsController extends Controller {
                 'email' => $email
             );
 
-            if ($this->StudentsModel->insert($data)) {
-                redirect(site_url('/students'));
+            if ($this->UsersModel->insert($data)) {
+                redirect(site_url('/users'));
             } else {
                 echo 'Error creating student.';
             }
         } else {
-            $this->call->view('students/create');
+            $this->call->view('users/create');
         }
     }
 
@@ -94,9 +86,9 @@ class StudentsController extends Controller {
 }
 
 
-        $students = $this->StudentsModel->find($id);
-        if(!$students) {
-            echo "Student not found.";
+        $user = $this->UsersModel->find($id);
+        if(!$user) {
+            echo "User not found.";
             return;
         }
 
@@ -111,17 +103,17 @@ class StudentsController extends Controller {
                 'email' => $email
             );
 
-            if ($this->StudentsModel->update($id, $data)) {
-                redirect(site_url('/students'));
+            if ($this->UsersModel->update($id, $data)) {
+                redirect(site_url('/users'));
             } else {
                 echo 'Error updating student.';
             }
         } else {
-            $data['student'] = $students;
-            $this->call->view('students/update', $data);
+            $data['user'] = $user;
+            $this->call->view('users/update', $data);
         }
     }
-
+    
     function delete($id){
         if ($_SESSION['role'] !== 'admin') {
     // redirect regular users to the dashboard
@@ -130,10 +122,10 @@ class StudentsController extends Controller {
 }
 
 
-        if($this->StudentsModel->delete($id)){
+        if($this->UsersModel->delete($id)){
             redirect(site_url('/users'));
         } else {
-            echo 'Error deleting student.';
+            echo 'Error deleting users.';
         }
     }
 }

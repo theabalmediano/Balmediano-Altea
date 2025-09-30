@@ -1,8 +1,7 @@
 <?php
-defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
-
 class AuthController extends Controller
 {
+
     public function register()
     {
         $this->call->library('auth');
@@ -10,15 +9,10 @@ class AuthController extends Controller
         if ($this->io->method() == 'post') {
             $username = $this->io->post('username');
             $password = $this->io->post('password');
-
-            // All new users default to 'user'
-            $role = 'user';
+            $role = $this->io->post('role') ?? 'user';
 
             if ($this->auth->register($username, $password, $role)) {
-                redirect('auth/login');
-                return;
-            } else {
-                echo '❌ Registration failed!';
+                redirect('/users');
             }
         }
 
@@ -26,51 +20,51 @@ class AuthController extends Controller
     }
 
     public function login()
-    {
-        $this->call->library('auth');
+{
+    $this->call->library('auth');
 
-        if ($this->io->method() == 'post') {
-            $username = $this->io->post('username');
-            $password = $this->io->post('password');
+    if ($this->io->method() == 'post') {
+        $username = $this->io->post('username');
+        $password = $this->io->post('password');
 
-            if ($this->auth->login($username, $password)) {
-                redirect('auth/dashboard');
-                return;
+        if ($this->auth->login($username, $password)) {
+
+            // check role and redirect accordingly
+            if ($this->auth->has_role('admin')) {
+                redirect('/users'); // full access page
             } else {
-                echo '❌ Login failed!';
+                redirect('auth/dashboard'); // user view-only page
             }
-        }
 
-        $this->call->view('auth/login');
+        } else {
+            echo 'Login failed!';
+        }
     }
 
-    public function dashboard()
-    {
-        $this->call->library('auth');
+    $this->call->view('auth/login');
+}
 
-        if (!$this->auth->is_logged_in()) {
-            redirect('auth/login');
-            return;
+
+public function dashboard()
+{
+    // All users can view the student list
+        $page = 1;
+        if (isset($_GET['page']) && !empty($_GET['page'])) {
+            $page = $this->io->get('page');
         }
 
-        // Redirect admin to /users list
-        if ($this->auth->has_role('admin')) {
-            redirect('users');
-            return;
+        $q = '';
+        if (isset($_GET['q']) && !empty($_GET['q'])) {
+            $q = trim($this->io->get('q'));
         }
 
-        // Non-admin users: show users table with pagination
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $q    = trim($this->io->get('q') ?? '');
         $records_per_page = 5;
 
-        $this->call->model('UsersModel');
         $all = $this->UsersModel->page($q, $records_per_page, $page);
-
         $data['users'] = $all['records'];
         $total_rows = $all['total_rows'];
 
-        $this->call->library('pagination');
+        // Pagination setup
         $this->pagination->set_options([
             'first_link'     => '⏮ First',
             'last_link'      => 'Last ⏭',
@@ -78,18 +72,33 @@ class AuthController extends Controller
             'prev_link'      => '← Prev',
             'page_delimiter' => '&page='
         ]);
+
         $this->pagination->set_theme('default');
         $this->pagination->initialize(
             $total_rows,
             $records_per_page,
             $page,
-            site_url('users') . '?q=' . urlencode($q)
+            site_url('/users') . '?q=' . urlencode($q)
         );
         $data['page'] = $this->pagination->paginate();
 
-        // Use the correct view
         $this->call->view('users/index', $data);
+        
+    $this->call->library('auth');
+
+    if (!$this->auth->is_logged_in()) {
+        redirect('auth/login');
     }
+
+    $role = $_SESSION['role'] ?? 'user';
+
+    if ($role === 'admin') {
+        redirect('/users');
+    }
+
+}
+
+
 
     public function logout()
     {
@@ -97,4 +106,6 @@ class AuthController extends Controller
         $this->auth->logout();
         redirect('auth/login');
     }
+    
 }
+?>

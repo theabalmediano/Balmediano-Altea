@@ -127,7 +127,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
             </div>
 
             <!-- Logout button right -->
-            <a class="create-btn bg-red-500 hover:bg-red-600" href="<?=site_url('auth/logout');?>">Logout</a>
+            <a class="create-btn bg-red-500 hover:bg-red-600" href="<?=site_url('Auth/logout');?>">Logout</a>
         </div>
 
     </div>

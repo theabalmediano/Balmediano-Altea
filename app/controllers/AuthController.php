@@ -5,7 +5,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->call->library('auth');
+        $this->call->library('Auth');
         $this->call->model('UsersModel');
     }
 
@@ -17,13 +17,13 @@ class AuthController extends Controller
             $role     = $this->io->post('role') ?? 'user';
 
             if ($this->auth->register($username, $password, $role)) {
-                redirect(site_url('auth/login'));
+                redirect(site_url('Auth/login'));
             } else {
                 echo "❌ Registration failed!";
             }
         }
 
-        $this->call->view('auth/register');
+        $this->call->view('Auth/register');
     }
 
     public function login()
@@ -37,20 +37,20 @@ class AuthController extends Controller
                 if ($role === 'admin') {
                     redirect(site_url('users')); // admin full access
                 } else {
-                    redirect(site_url('auth/dashboard')); // normal user
+                    redirect(site_url('Auth/dashboard')); // normal user
                 }
-            } else {
+
                 echo "❌ Login failed!";
             }
         }
 
-        $this->call->view('auth/login');
+        $this->call->view('Auth/login');
     }
 
     public function dashboard()
     {
         if (!$this->auth->is_logged_in()) {
-            redirect(site_url('auth/login'));
+            redirect(site_url('Auth/login'));
         }
 
         $role = $_SESSION['role'] ?? 'user';
@@ -80,7 +80,7 @@ class AuthController extends Controller
             $total_rows,
             $records_per_page,
             $page,
-            site_url('auth/dashboard') . '?q=' . urlencode($q)
+            site_url('Auth/dashboard') . '?q=' . urlencode($q)
         );
         $data['page'] = $this->pagination->paginate();
 
@@ -90,6 +90,6 @@ class AuthController extends Controller
     public function logout()
     {
         $this->auth->logout();
-        redirect(site_url('auth/login'));
+        redirect(site_url('Auth/login'));
     }
 }

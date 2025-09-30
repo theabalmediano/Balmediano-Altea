@@ -32,7 +32,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
     </form>
     <p class="text-center text-gray-500 mt-4">
         Already have an account? 
-        <a href="<?= site_url('auth/login') ?>" class="text-blue-500 font-semibold hover:underline">Login</a>
+        <a href="<?= site_url('Auth/login') ?>" class="text-blue-500 font-semibold hover:underline">Login</a>
     </p>
 </div>
 

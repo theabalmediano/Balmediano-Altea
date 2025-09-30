@@ -32,9 +32,9 @@
         <?php if (!empty($users)): ?>
           <?php foreach ($users as $user): ?>
             <tr class="border-t hover:bg-pink-100">
-              <td class="py-2 px-4"><?=$u['id']?></td>
-              <td class="py-2 px-4"><?=$u['username']?></td>
-              <td class="py-2 px-4"><?=$u['email']?></td>
+              <td class="py-2 px-4"><?=$user['id']?></td>
+              <td class="py-2 px-4"><?=$user['username']?></td>
+              <td class="py-2 px-4"><?=$user['email']?></td>
             </tr>
           <?php endforeach; ?>
         <?php else: ?>

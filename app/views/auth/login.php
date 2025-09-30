@@ -53,7 +53,7 @@
 
       <p class="text-center text-pink-700 mt-5 text-sm">
         Don't have an account? 
-        <a href="<?= site_url('auth/register') ?>" class="font-semibold underline hover:text-pink-900">Register</a>
+        <a href="<?= site_url('/') ?>" class="font-semibold underline hover:text-pink-900">Register</a>
       </p>
     </div>
   </div>

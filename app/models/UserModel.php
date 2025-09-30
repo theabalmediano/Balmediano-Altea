@@ -1,5 +1,5 @@
 <?php
-class StudentModel extends Model
+class UserModel extends Model
 {
     protected $table = 'users';
 

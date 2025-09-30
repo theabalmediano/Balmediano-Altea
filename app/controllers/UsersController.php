@@ -5,14 +5,14 @@ class UsersController extends Controller
 {
     public function __construct()
     {
-        $this->call->library('Auth');
+        $this->call->library('auth');
         $this->call->model('UsersModel');
     }
 
     public function index()
     {
         if (!$this->auth->is_logged_in()) {
-            redirect(site_url('Auth/login'));
+            redirect(site_url('auth/login'));
         }
 
         $page = $this->io->get('page') ?? 1;

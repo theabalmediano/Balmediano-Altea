@@ -54,3 +54,5 @@ $router->match('/auth/login', 'AuthController::login', ['GET','POST']);
 $router->get('/auth/logout', 'AuthController::logout');
 $router->get('/auth/dashboard', 'AuthController::dashboard');
  
+
+

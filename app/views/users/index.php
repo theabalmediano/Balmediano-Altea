@@ -17,7 +17,7 @@
         <button type="submit" class="px-4 py-2 bg-pink-500 text-white rounded-r-lg">Search</button>
       </form>
       <!-- Logout -->
-      <a href="<?=site_url('Auth/logout')?>" class="px-4 py-2 bg-red-500 text-white rounded-lg">Logout</a>
+      <a href="<?=site_url('auth/logout')?>" class="px-4 py-2 bg-red-500 text-white rounded-lg">Logout</a>
     </div>
 
     <table class="w-full text-center border">
@@ -30,7 +30,7 @@
       </thead>
       <tbody>
         <?php if (!empty($users)): ?>
-          <?php foreach ($users as $u): ?>
+          <?php foreach ($users as $user): ?>
             <tr class="border-t hover:bg-pink-100">
               <td class="py-2 px-4"><?=$u['id']?></td>
               <td class="py-2 px-4"><?=$u['username']?></td>

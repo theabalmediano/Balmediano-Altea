@@ -54,8 +54,8 @@ $router->get('/auth/dashboard', 'AuthController::dashboard');
 // Users CRUD
 $router->get('/users', 'UsersController::index');
 $router->match('/users/create', 'UsersController::create', ['GET', 'POST']);
-$router->match('/users/update/{id}', 'UsersController::update', ['GET', 'POST']);
-$router->get('/users/delete/{id}', 'UsersController::delete');
+$router->match('/users/update', 'UsersController::update', ['GET', 'POST']);
+$router->get('/users/delete', 'UsersController::delete');
     
  
 

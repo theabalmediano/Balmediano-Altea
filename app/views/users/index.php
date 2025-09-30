@@ -1,53 +1,193 @@
+<?php
+defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
+// ✅ Start session kung hindi pa naka-start
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// ✅ Redirect kung hindi naka-login
+if (!isset($_SESSION['user_id'])) {
+    header("Location: " . site_url('auth/login'));
+    exit;
+}
+
+// Para maiwasan notice error kung walang role
+$role = $_SESSION['role'] ?? null;
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Directory</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students List</title>
+    <link rel="stylesheet" href="<?=base_url();?>/public/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: left; 
+            color: #333;
+            font-size: 2.5em; 
+            margin: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #3498db;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        tr:hover {
+            background: #f1f1f1;
+        }
+
+        a.update-btn {
+            color: #3498db; 
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a.update-btn:hover {
+            text-decoration: underline;
+        }
+
+        a.delete-btn {
+            color: #e74c3c; 
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a.delete-btn:hover {
+            text-decoration: underline;
+        }
+
+        .create-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #c26dadff; 
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .create-btn:hover {
+            background: #cfacbdff;
+        }
+    </style>
 </head>
-<body class="bg-pink-100 min-h-screen">
+<body>
+    
+<!-- Search Bar -->
+<form method="get" action="<?=site_url('/users')?>" class="mb-4 flex justify-end" style="margin-right: 0.9in;">
 
-  <div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-xl">
-    <div class="flex justify-between items-center mb-4">
-      <!-- Search -->
-      <form method="get" action="<?=site_url('users')?>" class="flex">
-        <input type="text" name="q" value="<?=html_escape($_GET['q'] ?? '')?>" 
-               placeholder="Search..." class="px-4 py-2 border rounded-l-lg">
-        <button type="submit" class="px-4 py-2 bg-pink-500 text-white rounded-r-lg">Search</button>
-      </form>
-      <!-- Logout -->
-      <a href="<?=site_url('auth/logout')?>" class="px-4 py-2 bg-red-500 text-white rounded-lg">Logout</a>
-    </div>
+    <input 
+      type="text" 
+      name="q" 
+      value="<?=html_escape($_GET['q'] ?? '')?>" 
+      placeholder="Search student..." 
+      class="px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-64">
+    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-r-lg shadow transition-all duration-300">
+      🔍
+    </button>
+</form>
 
-    <table class="w-full text-center border">
-      <thead class="bg-pink-400 text-white">
-        <tr>
-          <th class="py-2 px-4">ID</th>
-          <th class="py-2 px-4">Username</th>
-          <th class="py-2 px-4">Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php if (!empty($users)): ?>
-          <?php foreach ($users as $user): ?>
-            <tr class="border-t hover:bg-pink-100">
-              <td class="py-2 px-4"><?=$user['id']?></td>
-              <td class="py-2 px-4"><?=$user['username']?></td>
-              <td class="py-2 px-4"><?=$user['email']?></td>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="text-4xl font-bold text-left">Students List</h1>
+            <?php if ($_SESSION['role'] === 'admin'): ?>
+            <a class="create-btn" href="<?=site_url('users/create');?>">Create Record</a>
+            <?php endif; ?>
+        </div>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Email</th>
+                <?php if ($_SESSION['role'] === 'admin'): ?>
+        <th>Action</th>
+      <?php endif; ?>
+
             </tr>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <tr><td colspan="3" class="py-4">No users found</td></tr>
-        <?php endif; ?>
-      </tbody>
-    </table>
+            <?php foreach(html_escape($users) as $user): ?>
+                <tr>
+                    <td><?= $user['id']; ?></td>
+                    <td><?= $user['first_name']; ?></td>
+                    <td><?= $user['last_name']; ?></td>
+                    <td><?= $user['email']; ?></td>
+                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
 
-    <!-- Pagination -->
-    <div class="mt-4 flex justify-center">
-      <?=$page ?? ''?>
+                    <td>
+                        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+
+                        <a class="update-btn" href="<?= site_url('users/update/'.$student['id']); ?>">Update</a> | 
+                        <a class="delete-btn" href="<?= site_url('users/delete/'.$student['id']); ?>">Delete</a>
+                        <?php endif; ?>
+                    </td>
+                    <?php endif; ?>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+         <!-- Pagination and Logout at bottom of container -->
+<div class="mt-4 flex justify-between items-center">
+    <!-- Pagination left -->
+    <div class="pagination flex space-x-2">
+        <?=$page ?? ''?>
     </div>
-  </div>
+
+    <!-- Logout button right -->
+    <a class="create-btn bg-red-500 hover:bg-red-600" href="<?=site_url('auth/logout');?>">Logout</a>
+</div>
+
+
+</div>
+<style>
+   
+
+</style>
 
 </body>
 </html>

@@ -1,4 +1,6 @@
 <?php
+defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
+
 class AuthController extends Controller
 {
     public function register()
@@ -8,10 +10,12 @@ class AuthController extends Controller
         if ($this->io->method() == 'post') {
             $username = $this->io->post('username');
             $password = $this->io->post('password');
-            $role     = $this->io->post('role') ?? 'user';
+
+            // All new users default to 'user'
+            $role = 'user';
 
             if ($this->auth->register($username, $password, $role)) {
-                redirect('users');
+                redirect('auth/login');
                 return;
             } else {
                 echo '❌ Registration failed!';
@@ -30,15 +34,10 @@ class AuthController extends Controller
             $password = $this->io->post('password');
 
             if ($this->auth->login($username, $password)) {
-                if ($this->auth->has_role('admin')) {
-                    redirect('users');
-                    return;
-                } else {
-                    redirect('auth/dashboard');
-                    return;
-                }
+                redirect('auth/dashboard');
+                return;
             } else {
-                echo 'Login failed!';
+                echo '❌ Login failed!';
             }
         }
 
@@ -54,18 +53,20 @@ class AuthController extends Controller
             return;
         }
 
-        $role = $_SESSION['role'] ?? 'user';
-        if ($role === 'admin') {
+        // Redirect admin to /users list
+        if ($this->auth->has_role('admin')) {
             redirect('users');
             return;
         }
 
-        // search + pagination only for non-admin
-        $page = isset($_GET['page']) && !empty($_GET['page']) ? (int)$this->io->get('page') : 1;
-        $q    = isset($_GET['q']) ? trim($this->io->get('q')) : '';
+        // Non-admin users: show users table with pagination
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $q    = trim($this->io->get('q') ?? '');
         $records_per_page = 5;
 
+        $this->call->model('UsersModel');
         $all = $this->UsersModel->page($q, $records_per_page, $page);
+
         $data['users'] = $all['records'];
         $total_rows = $all['total_rows'];
 
@@ -82,11 +83,12 @@ class AuthController extends Controller
             $total_rows,
             $records_per_page,
             $page,
-            site_url('auth/dashboard') . '?q=' . urlencode($q)
+            site_url('users') . '?q=' . urlencode($q)
         );
         $data['page'] = $this->pagination->paginate();
 
-        $this->call->view('students/index', $data);
+        // Use the correct view
+        $this->call->view('users/index', $data);
     }
 
     public function logout()

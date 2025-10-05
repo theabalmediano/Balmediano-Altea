@@ -17,17 +17,12 @@ $role = $_SESSION['role'] ?? null;
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8" />
-    <title>Kuromi Users</title>
+    <title>Kuromi Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Quicksand:wght@500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
     <style>
         body {
             font-family: 'Nunito', 'Quicksand', sans-serif;
@@ -47,13 +42,13 @@ $role = $_SESSION['role'] ?? null;
             box-shadow: 0 15px 40px rgba(236, 72, 153, 0.25);
             color: #be185d;
         }
-        /* Header */
         .header {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
+            gap: 1rem;
         }
         .title {
             display: flex;
@@ -85,7 +80,6 @@ $role = $_SESSION['role'] ?? null;
             margin: 0;
             font-weight: 600;
         }
-        /* Buttons */
         .btn-primary {
             background: linear-gradient(135deg,#be185d,#ec4899);
             padding: 0.75rem 1.5rem;
@@ -103,12 +97,11 @@ $role = $_SESSION['role'] ?? null;
             background: linear-gradient(135deg,#9f1239,#be185d);
             transform: translateY(-2px);
         }
-        /* Search */
         .search {
             margin-bottom: 2rem;
             display: flex;
-            justify-content: flex-start;
-            gap: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
         }
         .search input[type="text"] {
             padding: 0.7rem 1.25rem;
@@ -120,9 +113,8 @@ $role = $_SESSION['role'] ?? null;
             font-weight: 600;
             font-size: 1rem;
             outline-offset: 3px;
-            transition: border-color 0.3s ease;
         }
-        .search input[type="text"]:focus {
+        .search input:focus {
             border-color: #db2777;
             box-shadow: 0 0 0 3px rgba(219, 39, 119, 0.25);
         }
@@ -135,12 +127,10 @@ $role = $_SESSION['role'] ?? null;
             font-weight: 700;
             cursor: pointer;
             box-shadow: 0 6px 18px rgba(236, 72, 153, 0.45);
-            transition: background 0.3s ease;
         }
         .search button:hover {
             background: linear-gradient(135deg,#ec4899 0%,#be185d 100%);
         }
-        /* Table */
         table {
             width: 100%;
             border-collapse: separate;
@@ -160,7 +150,7 @@ $role = $_SESSION['role'] ?? null;
             text-align: left;
         }
         tbody td {
-            padding: 1rem 1.5rem;
+            padding: 1.25rem 1.5rem;
             font-size: 0.95rem;
             color: #831843;
             border-bottom: 1px solid #fbcfe8;
@@ -172,7 +162,6 @@ $role = $_SESSION['role'] ?? null;
             background-color: #f9a8d4;
             color: #6b0218;
         }
-        /* Actions */
         .action-cell {
             display: flex;
             gap: 0.5rem;
@@ -185,7 +174,6 @@ $role = $_SESSION['role'] ?? null;
             font-size: 0.9rem;
             font-weight: 700;
             box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
-            transition: background 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -202,7 +190,6 @@ $role = $_SESSION['role'] ?? null;
             font-size: 0.9rem;
             font-weight: 700;
             box-shadow: 0 5px 15px rgba(251, 113, 133, 0.4);
-            transition: background 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -211,7 +198,6 @@ $role = $_SESSION['role'] ?? null;
         .btn-delete:hover {
             background: linear-gradient(135deg,#f43f5e,#e11d48);
         }
-        /* Bottom bar */
         .bottom {
             margin-top: 2.5rem;
             display: flex;
@@ -228,7 +214,6 @@ $role = $_SESSION['role'] ?? null;
             color: #9d174d;
             text-decoration: none;
             font-weight: 700;
-            transition: background 0.3s ease;
         }
         .pagination a:hover {
             background: #ec4899;
@@ -248,7 +233,6 @@ $role = $_SESSION['role'] ?? null;
             padding: 0.65rem 1.75rem;
             border-radius: 9999px;
             box-shadow: 0 6px 18px rgba(236, 72, 153, 0.45);
-            transition: background 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -257,7 +241,6 @@ $role = $_SESSION['role'] ?? null;
         .btn-logout:hover {
             background: linear-gradient(135deg,#ec4899,#be185d);
         }
-        /* Center empty text */
         .empty-text {
             text-align: center;
             padding: 3rem 0;
@@ -290,7 +273,7 @@ $role = $_SESSION['role'] ?? null;
 
     <!-- Search -->
     <div class="search">
-        <form method="get" action="<?= site_url('/users') ?>" class="flex">
+        <form method="get" action="<?= site_url('/users') ?>" class="flex flex-wrap gap-2">
             <input
               type="text"
               name="q"
@@ -305,7 +288,7 @@ $role = $_SESSION['role'] ?? null;
     </div>
 
     <!-- User Table -->
-    <div class="table-wrapper">
+    <div class="table-wrapper overflow-x-auto">
         <table>
             <thead>
                 <tr>

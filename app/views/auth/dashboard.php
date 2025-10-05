@@ -47,61 +47,71 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
   <div class="absolute inset-0 overlay"></div>
 
-  <div class="relative max-w-7xl mx-auto px-6 py-10 z-10">
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 z-10">
 
-    <header class="flex justify-between items-center mb-8">
-      <h1 class="text-3xl font-bold flex items-center gap-3">
-        <i class="fa-solid fa-wand-magic-sparkles text-pink-600"></i>
-        Student Directory
+    <!-- Header -->
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
+      <h1 class="text-2xl sm:text-3xl font-bold flex items-center gap-2 sm:gap-3">
+        <!-- Minimalist creative icon -->
+        <span class="inline-flex items-center justify-center w-8 h-8 bg-pink-200 text-pink-700 rounded-full shadow-sm">
+          <i class="fa-solid fa-user-graduate text-sm sm:text-base"></i>
+        </span>
+        <span>Student Directory</span>
+        <!-- Optional tag/label -->
+        <span class="ml-2 text-xs sm:text-sm bg-pink-100 text-pink-700 font-semibold px-2 py-0.5 rounded-full">Beta</span>
       </h1>
-      <a href="<?=site_url('auth/logout')?>" class="btn-pink px-5 py-2 rounded-full shadow-md hover:scale-105 transition">
-        <i class="fa-solid fa-right-from-bracket mr-2"></i> Logout
+
+      <a href="<?=site_url('auth/logout')?>" class="btn-pink px-4 sm:px-5 py-2 rounded-full shadow-md hover:scale-105 transition text-sm sm:text-base">
+        <i class="fa-solid fa-right-from-bracket mr-1 sm:mr-2"></i> Logout
       </a>
     </header>
 
-    <form method="get" action="<?=site_url('/auth/dashboard')?>" class="mb-8">
+    <!-- Search -->
+    <form method="get" action="<?=site_url('/auth/dashboard')?>" class="mb-6 sm:mb-8">
       <input
         type="text"
         name="q"
         value="<?=html_escape($_GET['q'] ?? '')?>"
         placeholder="Search student..."
-        class="w-full max-w-md px-5 py-3 rounded-full border border-pink-300 input-pink text-pink-900 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-500"
+        class="w-full sm:max-w-md px-4 py-2 sm:px-5 sm:py-3 rounded-full border border-pink-300 input-pink text-pink-900 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-500"
       />
     </form>
 
+    <!-- Table -->
     <div class="overflow-x-auto bg-white/40 backdrop-blur-xl rounded-3xl border border-pink-300 shadow-2xl">
-      <table class="w-full text-center text-pink-900 rounded-3xl">
+      <table class="w-full min-w-[480px] text-center text-pink-900 rounded-3xl">
         <thead class="bg-pink-400 text-pink-50 rounded-t-3xl">
           <tr>
-            <th class="py-3 rounded-tl-3xl">ID</th>
-            <th class="py-3">Last Name</th>
-            <th class="py-3">First Name</th>
-            <th class="py-3 rounded-tr-3xl">Email</th>
+            <th class="py-2 sm:py-3 rounded-tl-3xl text-xs sm:text-base">ID</th>
+            <th class="py-2 sm:py-3 text-xs sm:text-base">Last Name</th>
+            <th class="py-2 sm:py-3 text-xs sm:text-base">First Name</th>
+            <th class="py-2 sm:py-3 rounded-tr-3xl text-xs sm:text-base">Email</th>
           </tr>
         </thead>
         <tbody>
           <?php if(!empty($users)): ?>
             <?php foreach(html_escape($users) as $user): ?>
-              <tr class="hover:bg-pink-100/60 transition">
-                <td class="py-3 border-t border-pink-300"><?= $user['id'] ?></td>
-                <td class="py-3 border-t border-pink-300"><?= $user['last_name'] ?></td>
-                <td class="py-3 border-t border-pink-300"><?= $user['first_name'] ?></td>
-                <td class="py-3 border-t border-pink-300"><?= $user['email'] ?></td>
+              <tr class="hover:bg-pink-100/60 transition text-xs sm:text-sm">
+                <td class="py-2 sm:py-3 border-t border-pink-300"><?= $user['id'] ?></td>
+                <td class="py-2 sm:py-3 border-t border-pink-300"><?= $user['last_name'] ?></td>
+                <td class="py-2 sm:py-3 border-t border-pink-300"><?= $user['first_name'] ?></td>
+                <td class="py-2 sm:py-3 border-t border-pink-300 break-words"><?= $user['email'] ?></td>
               </tr>
             <?php endforeach; ?>
           <?php else: ?>
-            <tr><td colspan="4" class="py-6 text-pink-600">No students found.</td></tr>
+            <tr><td colspan="4" class="py-6 text-pink-600 text-sm sm:text-base">No students found.</td></tr>
           <?php endif; ?>
         </tbody>
       </table>
     </div>
 
-    <div class="mt-8 text-center text-pink-700 font-semibold">
+    <!-- Pagination -->
+    <div class="mt-6 sm:mt-8 text-center text-pink-700 font-semibold text-sm sm:text-base">
       <?php if (!empty($page)) {
         echo str_replace(
           ['<a ', '<strong>', '</strong>'],
           [
-            '<a class="text-pink-600 font-semibold underline mx-1"',
+            '<a class="text-pink-600 font-semibold underline mx-1 text-sm sm:text-base"',
             '<span class="font-bold text-pink-700 underline">',
             '</span>'
           ],

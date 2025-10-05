@@ -17,19 +17,13 @@ $role = $_SESSION['role'] ?? null;
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8" />
-    <title>Kuromi Dashboard</title>
+    <title>Student Directory - Kuromi Pink Coquette</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Nunito', 'Quicksand', sans-serif;
             background: linear-gradient(135deg, #ffe4ec 0%, #ffd6e8 50%, #ffcce0 100%);
@@ -38,25 +32,6 @@ $role = $_SESSION['role'] ?? null;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 182, 193, 0.15) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
         }
 
         .card {
@@ -66,19 +41,15 @@ $role = $_SESSION['role'] ?? null;
             max-width: 1200px;
             width: 100%;
             padding: 2.5rem 3rem;
-            box-shadow: 0 20px 60px rgba(255, 182, 193, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 60px rgba(255, 182, 193, 0.3);
             color: #d63384;
-            position: relative;
-            z-index: 1;
         }
 
         .header {
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2.5rem;
-            gap: 1.5rem;
             padding-bottom: 2rem;
             border-bottom: 2px solid #ffd6e8;
         }
@@ -116,17 +87,6 @@ $role = $_SESSION['role'] ?? null;
             background: linear-gradient(135deg, #d63384, #ffb6c1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 0;
-            letter-spacing: -0.5px;
-        }
-
-        .title-text p {
-            color: #e75498;
-            font-size: 1rem;
-            margin: 0.25rem 0 0 0;
-            font-weight: 600;
-            opacity: 0.9;
         }
 
         .btn-primary {
@@ -141,9 +101,6 @@ $role = $_SESSION['role'] ?? null;
             display: inline-flex;
             align-items: center;
             gap: 0.6rem;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
         }
 
         .btn-primary:hover {
@@ -154,28 +111,21 @@ $role = $_SESSION['role'] ?? null;
 
         .search {
             margin-bottom: 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
         }
 
         .search form {
             display: flex;
-            flex-wrap: wrap;
             gap: 1rem;
-            width: 100%;
         }
 
-        .search input[type="text"] {
+        .search input {
             padding: 0.85rem 1.5rem;
             border-radius: 1rem;
             border: 2px solid #ffcce0;
             flex: 1;
-            min-width: 280px;
             background-color: rgba(255, 240, 246, 0.6);
             color: #9d174d;
             font-weight: 600;
-            font-size: 1rem;
             outline: none;
             transition: all 0.3s ease;
         }
@@ -183,13 +133,11 @@ $role = $_SESSION['role'] ?? null;
         .search input:focus {
             border-color: #ff99b6;
             background-color: white;
-            box-shadow: 0 0 0 4px rgba(255, 182, 193, 0.1);
         }
 
         .search button {
-            padding: 0.85rem 2rem;
+            padding: 0.85rem 1.5rem;
             border-radius: 1rem;
-            border: none;
             background: linear-gradient(135deg, #ffb6c1, #ffcce0);
             color: white;
             font-weight: 700;
@@ -203,8 +151,6 @@ $role = $_SESSION['role'] ?? null;
 
         .search button:hover {
             background: linear-gradient(135deg, #ffcce0, #ffb6c1);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 182, 193, 0.45);
         }
 
         .table-wrapper {
@@ -215,8 +161,7 @@ $role = $_SESSION['role'] ?? null;
 
         table {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
+            border-collapse: collapse;
             border-radius: 1.5rem;
             overflow: hidden;
         }
@@ -227,21 +172,19 @@ $role = $_SESSION['role'] ?? null;
         }
 
         thead th {
-            padding: 1.25rem 1.5rem;
+            padding: 1rem 1.5rem;
             font-weight: 700;
             font-size: 0.9rem;
             text-align: left;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         tbody td {
-            padding: 1.25rem 1.5rem;
+            padding: 1rem 1.5rem;
             font-size: 0.95rem;
             color: #9d174d;
             border-bottom: 1px solid #ffd6e8;
             background: white;
-            transition: all 0.3s ease;
         }
 
         tbody tr:nth-child(even) td {
@@ -250,55 +193,6 @@ $role = $_SESSION['role'] ?? null;
 
         tbody tr:hover td {
             background: linear-gradient(90deg, #ffe4ec, #fff0f6);
-            transform: scale(1.01);
-        }
-
-        .action-cell {
-            display: flex;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-        }
-
-        .btn-update {
-            background: linear-gradient(135deg, #e0b3ff, #ffcce0);
-            color: white;
-            padding: 0.5rem 1.2rem;
-            border-radius: 0.75rem;
-            font-size: 0.9rem;
-            font-weight: 700;
-            box-shadow: 0 4px 12px rgba(224, 179, 255, 0.35);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            transition: all 0.3s ease;
-            border: none;
-        }
-
-        .btn-update:hover {
-            background: linear-gradient(135deg, #d8a1ff, #e0b3ff);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(224, 179, 255, 0.45);
-        }
-
-        .btn-delete {
-            background: linear-gradient(135deg, #ffb6c1, #ff99b6);
-            color: white;
-            padding: 0.5rem 1.2rem;
-            border-radius: 0.75rem;
-            font-size: 0.9rem;
-            font-weight: 700;
-            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.35);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            transition: all 0.3s ease;
-            border: none;
-        }
-
-        .btn-delete:hover {
-            background: linear-gradient(135deg, #ff99b6, #ffb6c1);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(255, 182, 193, 0.45);
         }
 
         .bottom {
@@ -314,40 +208,6 @@ $role = $_SESSION['role'] ?? null;
             font-weight: 600;
         }
 
-        .pagination {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .pagination a {
-            padding: 0.6rem 1rem;
-            border-radius: 0.75rem;
-            background: #ffe4ec;
-            color: #d63384;
-            text-decoration: none;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .pagination a:hover {
-            background: #ffb6c1;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
-        }
-
-        .pagination strong {
-            background: linear-gradient(135deg, #ffb6c1, #ffcce0);
-            color: white;
-            padding: 0.6rem 1rem;
-            border-radius: 0.75rem;
-            font-weight: 700;
-            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
-        }
-
         .btn-logout {
             background: linear-gradient(135deg, #ffd6e8, #ffcce0);
             color: white;
@@ -359,46 +219,17 @@ $role = $_SESSION['role'] ?? null;
             align-items: center;
             gap: 0.6rem;
             transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
         }
 
         .btn-logout:hover {
             background: linear-gradient(135deg, #ffcce0, #ffb6c1);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 182, 193, 0.5);
         }
 
         .empty-text {
             text-align: center;
-            padding: 4rem 0;
-            color: #ffcce0;
+            padding: 3rem 0;
+            color: #ff99b6;
             font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        @media (max-width: 768px) {
-            .card {
-                padding: 2rem 1.5rem;
-            }
-
-            .title-text h1 {
-                font-size: 1.5rem;
-            }
-
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .action-cell {
-                flex-direction: column;
-            }
-
-            .bottom {
-                flex-direction: column;
-                align-items: flex-start;
-            }
         }
     </style>
 </head>
@@ -409,48 +240,35 @@ $role = $_SESSION['role'] ?? null;
     <div class="header">
         <div class="title">
             <div class="title-icon">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <i class="fa-solid fa-graduation-cap"></i>
             </div>
             <div class="title-text">
-                <h1>User Management</h1>
-                <p>Manage your magical users with sparkle ✨</p>
+                <h1>Student Directory</h1>
+                <p>Manage your lovely students 💖</p>
             </div>
         </div>
-        <?php if ($role === 'admin'): ?>
-            <a class="btn-primary" href="<?= site_url('users/create') ?>">
-                <i class="fa-solid fa-plus"></i> Add User
-            </a>
-        <?php endif; ?>
+        <a href="<?= site_url('users/create') ?>" class="btn-primary">
+            <i class="fa-solid fa-user-plus"></i> Add Student
+        </a>
     </div>
 
     <!-- Search -->
     <div class="search">
-        <form method="get" action="<?= site_url('/users') ?>">
-            <input
-              type="text"
-              name="q"
-              value="<?= html_escape($_GET['q'] ?? '') ?>"
-              placeholder="🔍 Search users by name or email..."
-              aria-label="Search users"
-            />
-            <button type="submit">
-                <i class="fa-solid fa-magnifying-glass"></i> Search
-            </button>
+        <form method="get" action="<?= site_url('/auth/dashboard') ?>">
+            <input type="text" name="q" value="<?= html_escape($_GET['q'] ?? '') ?>" placeholder="🔍 Search student..." />
+            <button type="submit"><i class="fa fa-search"></i> Search</button>
         </form>
     </div>
 
-    <!-- User Table -->
+    <!-- Table -->
     <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>First Name</th>
                     <th>Last Name</th>
+                    <th>First Name</th>
                     <th>Email</th>
-                    <?php if ($role === 'admin'): ?>
-                        <th>Actions</th>
-                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
@@ -458,28 +276,16 @@ $role = $_SESSION['role'] ?? null;
                     <?php foreach (html_escape($users) as $user): ?>
                         <tr>
                             <td><?= $user['id']; ?></td>
-                            <td><?= $user['first_name']; ?></td>
                             <td><?= $user['last_name']; ?></td>
+                            <td><?= $user['first_name']; ?></td>
                             <td><?= $user['email']; ?></td>
-                            <?php if ($role === 'admin'): ?>
-                                <td>
-                                    <div class="action-cell">
-                                        <a class="btn-update" href="<?= site_url('users/update/' . $user['id']); ?>">
-                                            <i class="fa-solid fa-pen-to-square"></i> Update
-                                        </a>
-                                        <a class="btn-delete" href="<?= site_url('users/delete/' . $user['id']); ?>" onclick="return confirm('Are you sure you want to delete this user?')">
-                                            <i class="fa-solid fa-trash"></i> Delete
-                                        </a>
-                                    </div>
-                                </td>
-                            <?php endif; ?>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="<?= $role === 'admin' ? '5' : '4' ?>" class="empty-text">
-                            <i class="fa-solid fa-search" style="font-size: 2rem; opacity: 0.3; display: block; margin-bottom: 1rem;"></i>
-                            No users found. Try different keywords.
+                        <td colspan="4" class="empty-text">
+                            <i class="fa-solid fa-heart-crack" style="font-size:1.5rem;margin-bottom:0.5rem;display:block;"></i>
+                            No students found 💔
                         </td>
                     </tr>
                 <?php endif; ?>

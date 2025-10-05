@@ -20,268 +20,397 @@ $role = $_SESSION['role'] ?? null;
     <title>Kuromi User List</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="<?=base_url();?>/public/style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background-image: url('https://i.pinimg.com/736x/bf/01/f9/bf01f9444340ecdb37af06d201c6f1cf.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #7f1d64; /* deep pink-purple text */
+            background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 25%, #f9a8d4 50%, #f472b6 75%, #ec4899 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            margin: 0;
-        }
-
-        .overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(255, 240, 245, 0.6);
-            z-index: 0;
+            padding: 2rem 1rem;
         }
 
         .container {
-            position: relative;
-            z-index: 10;
-            max-width: 900px;
+            max-width: 1100px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(20px);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(254, 242, 242, 0.9) 100%);
+            backdrop-filter: blur(30px);
             border-radius: 2rem;
-            border: 1px solid #f9a8d4;
-            box-shadow: 0 15px 30px rgba(249, 168, 212, 0.3);
-            padding: 2rem 2.5rem;
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            box-shadow: 0 20px 60px rgba(236, 72, 153, 0.25);
+            padding: 2.5rem;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         h1 {
             font-weight: 700;
             font-size: 2.5rem;
-            text-align: center;
-            color: #a72e6e;
-            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #be185d 0%, #ec4899 50%, #f9a8d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        /* Search bar */
+        .subtitle {
+            color: #be185d;
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        .search-section {
+            background: white;
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.1);
+        }
+
+        .search-label {
+            font-weight: 600;
+            color: #be185d;
+            margin-bottom: 0.75rem;
+            display: block;
+            font-size: 0.95rem;
+        }
+
         .search-bar {
             display: flex;
-            justify-content: flex-end;
-            margin-bottom: 1.5rem;
+            gap: 0.5rem;
         }
+
         .search-bar input[type="text"] {
-            width: 280px;
-            padding: 0.75rem 1rem;
-            border-radius: 9999px 0 0 9999px;
-            border: 2px solid #f9a8d4;
-            background-color: rgba(255, 240, 245, 0.8);
-            color: #7f1d64;
-            font-weight: 600;
+            flex: 1;
+            padding: 0.875rem 1.25rem;
+            border-radius: 9999px;
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            background-color: white;
+            color: #831843;
+            font-weight: 500;
             outline: none;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            font-size: 0.95rem;
         }
+
         .search-bar input[type="text"]:focus {
-            background-color: rgba(249, 168, 212, 0.4);
+            border-color: #ec4899;
+            box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.1);
         }
+
         .search-bar button {
-            padding: 0.75rem 1.2rem;
-            border-radius: 0 9999px 9999px 0;
-            border: 2px solid #f9a8d4;
-            background: linear-gradient(to right, #f472b6, #f9a8d4);
+            padding: 0.875rem 2rem;
+            border-radius: 9999px;
+            border: none;
+            background: linear-gradient(135deg, #be185d 0%, #ec4899 100%);
             color: white;
             font-weight: 700;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(190, 24, 93, 0.4);
         }
+
         .search-bar button:hover {
-            background: linear-gradient(to right, #f9a8d4, #f472b6);
+            background: linear-gradient(135deg, #9f1239 0%, #be185d 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(190, 24, 93, 0.5);
+        }
+
+        .btn-create {
+            background: linear-gradient(135deg, #be185d 0%, #ec4899 100%);
+            color: white;
+            font-weight: 700;
+            padding: 0.875rem 1.75rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(190, 24, 93, 0.4);
+            transition: all 0.3s;
+            display: inline-block;
+            font-size: 0.95rem;
+        }
+
+        .btn-create:hover {
+            background: linear-gradient(135deg, #9f1239 0%, #be185d 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(190, 24, 93, 0.5);
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.1);
+            border: 2px solid rgba(236, 72, 153, 0.2);
         }
 
         table {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 0.8rem;
-            font-weight: 600;
-            color: #7f1d64;
+            border-collapse: collapse;
+            color: #831843;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #f472b6 0%, #ec4899 100%);
         }
 
         th {
-            padding: 1rem 1.5rem;
-            background-color: #f9a8d4;
-            color: #601e45;
+            padding: 1.25rem 1.5rem;
+            color: white;
             font-weight: 700;
-            text-align: center;
-            border-radius: 1rem 1rem 0 0;
+            text-align: left;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        tbody tr {
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(252, 231, 243, 0.4);
+        }
+
+        tbody tr:hover {
+            background: rgba(249, 168, 212, 0.3);
+            transform: scale(1.002);
         }
 
         td {
-            padding: 1rem 1.5rem;
-            background-color: rgba(249, 168, 212, 0.3);
-            text-align: center;
-            border-bottom: 0.3rem solid transparent;
-            border-radius: 0 0 1rem 1rem;
-            transition: background-color 0.3s;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid rgba(236, 72, 153, 0.1);
+            font-weight: 500;
+            font-size: 0.9rem;
         }
 
-        tbody tr:hover td {
-            background-color: rgba(249, 168, 212, 0.6);
+        .action-cell {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
-        /* Action buttons */
-        a.update-btn,
-        a.delete-btn,
-        a.create-btn {
-            font-weight: 700;
-            padding: 0.4rem 1rem;
+        .btn-update {
+            background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 1.25rem;
             border-radius: 9999px;
             text-decoration: none;
-            box-shadow: 0 6px 12px rgba(249, 168, 212, 0.4);
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            display: inline-block;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3);
         }
 
-        a.create-btn {
-            background: linear-gradient(to right, #f472b6, #f9a8d4);
+        .btn-update:hover {
+            background: linear-gradient(135deg, #9333ea 0%, #a855f7 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #fb7185 0%, #f43f5e 100%);
             color: white;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-            box-shadow: 0 10px 25px rgba(249, 168, 212, 0.7);
-        }
-        a.create-btn:hover {
-            background: linear-gradient(to right, #f9a8d4, #f472b6);
-            transform: scale(1.05);
+            font-weight: 600;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 8px rgba(251, 113, 133, 0.3);
         }
 
-        a.update-btn {
-            color: #7f1d64;
-            background-color: rgba(249, 168, 212, 0.5);
-        }
-        a.update-btn:hover {
-            background-color: rgba(249, 168, 212, 0.8);
-            color: #601e45;
-            transform: scale(1.05);
+        .btn-delete:hover {
+            background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(251, 113, 133, 0.4);
         }
 
-        a.delete-btn {
-            color: #e11d48;
-            background-color: rgba(255, 105, 180, 0.3);
-        }
-        a.delete-btn:hover {
-            background-color: rgba(255, 105, 180, 0.6);
-            color: #b91c1c;
-            transform: scale(1.05);
-        }
-
-        /* Pagination + Logout */
-        .bottom-bar {
+        .bottom-section {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-top: 2rem;
+            flex-wrap: wrap;
+            gap: 1.5rem;
         }
 
         .pagination {
-            color: #7f1d64;
-            font-weight: 700;
+            color: #831843;
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
         .pagination a {
             padding: 0.5rem 1rem;
-            border: 2px solid #f9a8d4;
-            margin: 0 0.3rem;
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            margin: 0 0.25rem;
             border-radius: 9999px;
-            color: #7f1d64;
+            color: #831843;
             text-decoration: none;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            display: inline-block;
         }
 
         .pagination a:hover {
-            background-color: #f9a8d4;
-            color: #601e45;
+            background: rgba(249, 168, 212, 0.4);
+            border-color: #ec4899;
+            transform: translateY(-2px);
         }
 
-        .logout-btn {
-            background: linear-gradient(to right, #f472b6, #f9a8d4);
+        .pagination strong {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #be185d 0%, #ec4899 100%);
+            color: white;
+            border-radius: 9999px;
+            margin: 0 0.25rem;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(190, 24, 93, 0.3);
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #be185d 0%, #ec4899 100%);
             color: white;
             font-weight: 700;
-            padding: 0.6rem 1.5rem;
+            padding: 0.75rem 1.75rem;
             border-radius: 9999px;
             text-decoration: none;
-            box-shadow: 0 10px 25px rgba(249, 168, 212, 0.7);
-            transition: transform 0.3s;
+            box-shadow: 0 4px 15px rgba(190, 24, 93, 0.4);
+            transition: all 0.3s;
+            display: inline-block;
         }
 
-        .logout-btn:hover {
-            background: linear-gradient(to right, #f9a8d4, #f472b6);
-            transform: scale(1.05);
+        .btn-logout:hover {
+            background: linear-gradient(135deg, #9f1239 0%, #be185d 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(190, 24, 93, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .header-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .table-wrapper {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 600px;
+            }
+
+            .bottom-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="overlay"></div>
-
 <div class="container">
 
-    <!-- Search Bar -->
-    <form method="get" action="<?=site_url('/users')?>" class="search-bar" role="search" aria-label="Search users">
-        <input type="text" name="q" value="<?=html_escape($_GET['q'] ?? '')?>" placeholder="🔍 Search user..." />
-        <button type="submit" aria-label="Search">Go</button>
-    </form>
-
-    <div class="flex justify-between items-center mb-6">
-        <h1>Kuromi User List</h1>
+    <div class="header-section">
+        <div>
+            <h1>User Management</h1>
+            <p class="subtitle">Manage your users with ease ♡</p>
+        </div>
         <?php if ($role === 'admin'): ?>
-            <a class="create-btn" href="<?=site_url('users/create');?>">
-                <i class="fa-solid fa-plus"></i> Add User
+            <a class="btn-create" href="<?=site_url('users/create');?>">
+                Add New User
             </a>
         <?php endif; ?>
     </div>
 
-    <table role="table" aria-label="User List">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Firstname</th>
-                <th scope="col">Lastname</th>
-                <th scope="col">Email</th>
-                <?php if ($role === 'admin'): ?>
-                    <th scope="col">Action</th>
-                <?php endif; ?>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach(html_escape($users) as $user): ?>
+    <div class="search-section">
+        <label class="search-label">Search Users</label>
+        <form method="get" action="<?=site_url('/users')?>" class="search-bar">
+            <input type="text" name="q" value="<?=html_escape($_GET['q'] ?? '')?>" placeholder="Type name, email, or ID..." />
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
                 <tr>
-                    <td><?= $user['id']; ?></td>
-                    <td><?= $user['first_name']; ?></td>
-                    <td><?= $user['last_name']; ?></td>
-                    <td><?= $user['email']; ?></td>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
                     <?php if ($role === 'admin'): ?>
-                        <td>
-                            <a class="update-btn" href="<?= site_url('users/update/'.$user['id']); ?>">✏️ Update</a> |
-                            <a class="delete-btn" href="<?= site_url('users/delete/'.$user['id']); ?>" onclick="return confirm('Are you sure you want to delete this user?');">🗑️ Delete</a>
-                        </td>
+                        <th>Actions</th>
                     <?php endif; ?>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php if(!empty($users)): ?>
+                    <?php foreach(html_escape($users) as $user): ?>
+                        <tr>
+                            <td style="font-weight: 700; color: #be185d;"><?= $user['id']; ?></td>
+                            <td><?= $user['first_name']; ?></td>
+                            <td><?= $user['last_name']; ?></td>
+                            <td style="color: #be185d;"><?= $user['email']; ?></td>
+                            <?php if ($role === 'admin'): ?>
+                                <td>
+                                    <div class="action-cell">
+                                        <a class="btn-update" href="<?= site_url('users/update/'.$user['id']); ?>">Update</a>
+                                        <a class="btn-delete" href="<?= site_url('users/delete/'.$user['id']); ?>" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                                    </div>
+                                </td>
+                            <?php endif; ?>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="<?= $role === 'admin' ? '5' : '4' ?>" style="text-align: center; padding: 3rem; color: #be185d;">
+                            <p style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">No users found</p>
+                            <p style="font-weight: 500; font-size: 0.9rem; color: #ec4899;">Try searching with different keywords</p>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
 
-    <div class="bottom-bar">
-        <div class="pagination" aria-label="Pagination Links">
+    <div class="bottom-section">
+        <div class="pagination">
             <?= $page ?? '' ?>
         </div>
-        <a href="<?=site_url('auth/logout');?>" class="logout-btn" role="button" aria-label="Logout">
-            🚪 Logout
+        <a href="<?=site_url('auth/logout');?>" class="btn-logout">
+            Logout
         </a>
     </div>
+
 </div>
 
 </body>

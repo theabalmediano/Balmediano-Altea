@@ -65,7 +65,7 @@ class AuthController extends Controller
             redirect('/users');
         }
 
-        // For users: load student list (read-only)
+        // For regular users: load read-only user list
         $this->call->model('UsersModel');
 
         $page = isset($_GET['page']) ? (int) $this->io->get('page') : 1;
@@ -100,7 +100,11 @@ class AuthController extends Controller
     public function logout()
     {
         $this->call->library('auth');
+
+        // Logout user
         $this->auth->logout();
-        redirect('/auth/register');
+
+        // Redirect to login page (not register)
+        redirect('/auth/login');
     }
 }

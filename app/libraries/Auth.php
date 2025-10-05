@@ -18,10 +18,14 @@ class Auth
     {
         $errors = [];
 
-        if ($confirm_password !== null && $password !== $confirm_password) {
+        // Confirm password check
+        if ($confirm_password === null) {
+            $errors[] = "Confirm password is required.";
+        } elseif ($password !== $confirm_password) {
             $errors[] = "Passwords do not match.";
         }
 
+        // Password validation (main password only)
         if(strlen($password) < 8){
             $errors[] = "Password must be at least 8 characters.";
         }
@@ -33,16 +37,19 @@ class Auth
             $errors[] = "Password must include uppercase, lowercase, number, and special character.";
         }
 
+        // Check kung existing na yung username
         $existing = $this->db->table('users')->where('username', $username)->get();
         if($existing){
             $errors[] = "Username already taken.";
         }
 
+        // Kapag may error, ibalik
         if(!empty($errors)){
             $this->session->set_userdata('register_errors', $errors);
             return false;
         }
 
+        // Kung pasado lahat, insert user
         $hash = password_hash($password, PASSWORD_DEFAULT);
         return $this->db->table('users')->insert([
             'username' => $username,

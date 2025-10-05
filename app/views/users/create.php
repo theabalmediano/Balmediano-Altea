@@ -98,7 +98,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
                   class="flex-1 px-5 py-3 rounded-full font-semibold shadow-lg btn-pink transition-all duration-300 hover:scale-105">
             <i class="fa-solid fa-heart mr-2"></i> Sign Up
           </button>
-          <a href="<?=site_url()?>"
+          <a href="<?=site_url('auth/dashboard')?>"
              class="flex-1 px-5 py-3 rounded-full font-semibold shadow-lg bg-pink-50/80 text-pink-900 border border-pink-300 hover:bg-pink-100 transition duration-300 text-center">
             <i class="fa-solid fa-arrow-left mr-2"></i> Back
           </a>

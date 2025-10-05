@@ -6,11 +6,10 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - Kuromi Pink Coquette</title>
+  <title>Update Student - Kuromi Pink Coquette</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="<?=base_url();?>/public/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -43,9 +42,10 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
       border: 1px solid #fbcfe8;
       padding: 2rem;
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
+      max-width: 400px;
+      margin: 3rem auto;
+      text-align: center;
     }
-    .card:hover { transform: translateY(-5px); }
     .btn-pink {
       background: linear-gradient(to right, #f472b6, #f9a8d4);
       color: white;
@@ -53,56 +53,45 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
     .btn-pink:hover {
       background: linear-gradient(to right, #f9a8d4, #f472b6);
     }
+    input {
+      border: 1px solid #fbcfe8;
+      border-radius: 9999px;
+      padding: 0.5rem 1rem;
+      width: 100%;
+      margin-bottom: 1rem;
+      outline: none;
+    }
+    input:focus {
+      border-color: #f472b6;
+      box-shadow: 0 0 0 2px rgba(244, 114, 182, 0.3);
+    }
   </style>
 </head>
-<body class="min-h-screen relative flex flex-col">
+<body>
 
-  <!-- Overlay -->
-  <div class="absolute inset-0 overlay"></div>
-
-  <!-- Header -->
-  <header class="relative z-10 p-6 flex justify-between items-center">
-    <div class="flex items-center gap-3">
-      <div class="magic-icon">
+  <div class="overlay min-h-screen flex items-center justify-center">
+    <div class="card">
+      <div class="magic-icon mb-4">
         <i class="fa-solid fa-wand-magic-sparkles text-white text-2xl"></i>
       </div>
-      <h1 class="text-2xl font-bold">Kuromi Pink Dashboard</h1>
-    </div>
-    <a href="<?= site_url('auth/logout') ?>" class="btn-pink px-4 py-2 rounded-full font-semibold shadow-lg flex items-center gap-2 hover:scale-105 transition-all">
-      <i class="fa-solid fa-right-from-bracket"></i> Logout
-    </a>
-  </header>
+      <h2 class="text-2xl font-bold mb-1">Update Student Info ✨</h2>
+      <p class="text-pink-700 mb-6">Make your profile magical & fresh!</p>
 
-  <!-- Main Content -->
-  <main class="relative z-10 flex-1 p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    <!-- Card Example -->
-    <div class="card flex flex-col items-center justify-center text-center p-6">
-      <i class="fa-solid fa-user text-4xl mb-4"></i>
-      <h2 class="text-xl font-bold mb-2">Students</h2>
-      <p class="text-pink-700 mb-4">Manage student accounts and info.</p>
-      <a href="<?= site_url('students') ?>" class="btn-pink px-4 py-2 rounded-full font-semibold flex items-center gap-2 hover:scale-105 transition-all">
-        <i class="fa-solid fa-arrow-right"></i> View
-      </a>
+      <form action="<?= site_url('users/update/'.$user['id']) ?>" method="post">
+        <input type="text" name="first_name" placeholder="First Name" value="<?= $user['first_name'] ?>" required>
+        <input type="text" name="last_name" placeholder="Last Name" value="<?= $user['last_name'] ?>" required>
+        <input type="email" name="email" placeholder="Email Address" value="<?= $user['email'] ?>" required>
+        <div class="flex gap-4 mt-4 justify-center">
+          <button type="submit" class="btn-pink px-6 py-2 rounded-full font-semibold flex items-center gap-2">
+            <i class="fa-solid fa-heart"></i> Update
+          </button>
+          <a href="<?= site_url('users') ?>" class="px-6 py-2 rounded-full border border-pink-300 font-semibold text-pink-700 hover:bg-pink-100 flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i> Back
+          </a>
+        </div>
+      </form>
     </div>
-
-    <div class="card flex flex-col items-center justify-center text-center p-6">
-      <i class="fa-solid fa-chalkboard-user text-4xl mb-4"></i>
-      <h2 class="text-xl font-bold mb-2">Classes</h2>
-      <p class="text-pink-700 mb-4">Create and manage classes.</p>
-      <a href="<?= site_url('classes') ?>" class="btn-pink px-4 py-2 rounded-full font-semibold flex items-center gap-2 hover:scale-105 transition-all">
-        <i class="fa-solid fa-arrow-right"></i> View
-      </a>
-    </div>
-
-    <div class="card flex flex-col items-center justify-center text-center p-6">
-      <i class="fa-solid fa-gear text-4xl mb-4"></i>
-      <h2 class="text-xl font-bold mb-2">Settings</h2>
-      <p class="text-pink-700 mb-4">Update your account and preferences.</p>
-      <a href="<?= site_url('settings') ?>" class="btn-pink px-4 py-2 rounded-full font-semibold flex items-center gap-2 hover:scale-105 transition-all">
-        <i class="fa-solid fa-arrow-right"></i> View
-      </a>
-    </div>
-  </main>
+  </div>
 
 </body>
 </html>

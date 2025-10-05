@@ -53,8 +53,7 @@
             <i class="fa-solid fa-eye-slash hidden" id="eyeClosedC"></i>
           </button>
         </div>
-        <p id="confirmHelp" class="text-xs mt-1 text-red-500">At least 8 letters with uppercase, lowercase, number & symbol.</p>
-
+  
         <!-- Role -->
         <select name="role" required class="w-full px-4 py-3 rounded-full border border-pink-300 text-pink-900 focus:outline-none focus:ring-2 focus:ring-pink-400">
           <option value="user">User</option>

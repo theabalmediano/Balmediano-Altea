@@ -17,13 +17,13 @@ h1 {
 }
 
 .description-box {
-  background: rgba(255, 230, 240, 0.9);
+  background: rgba(255, 230, 240, 0.95);
   border: 3px solid #f2a6c6;
   border-radius: 16px;
   width: 60%;
   margin: 40px auto;
   padding: 20px;
-  box-shadow: 0 0 15px #9b4f7c;
+  box-shadow: 0 0 15px #d47fa7;
   font-size: 18px;
   line-height: 1.6;
   color: #4a2c3a;
@@ -37,13 +37,13 @@ h1 {
   width: 80%;
   margin: 0 auto;
   border-collapse: collapse;
-  background: rgba(255, 230, 240, 0.9);
-  box-shadow: 0 0 15px #9b4f7c;
+  background: rgba(255, 230, 240, 0.95);
+  box-shadow: 0 0 15px #d47fa7;
 }
 
 .guild-table th,
 .guild-table td {
-  border: 2px solid #d47fa7;
+  border: 2px solid #f2a6c6;
   padding: 12px;
   font-size: 18px;
 }
@@ -54,7 +54,7 @@ h1 {
 }
 
 .guild-table tr:nth-child(even) {
-  background: rgba(255, 245, 250, 0.8);
+  background: rgba(255, 245, 250, 0.9);
 }
 
 /* ✨ General Button Style */
@@ -64,52 +64,52 @@ h1 {
   padding: 10px 20px;
   margin: 5px;
   border-radius: 12px;
-  border: 2px solid #e89bbd;      /* softer pink border */
-  background: linear-gradient(135deg, #ffe4f1, #f8b8d0); /* pastel pink gradient */
-  color: #4a2c3a;                 /* deep rose brown text */
+  border: 2px solid #e89bbd;
+  background: linear-gradient(135deg, #ffe4f1, #f8b8d0);
+  color: #4a2c3a;
   font-weight: bold;
   font-family: "Garamond", serif;
-  box-shadow: 0 3px 6px rgba(155, 79, 124, 0.3);
+  box-shadow: 0 3px 6px rgba(212, 127, 167, 0.4);
   transition: all 0.3s ease;
 }
 
 .btn:hover {
   background: linear-gradient(135deg, #ffd9eb, #f2a6c6);
   transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 5px 10px rgba(155, 79, 124, 0.4);
+  box-shadow: 0 5px 10px rgba(212, 127, 167, 0.6);
 }
 
 /* 💖 Soft Danger Button (delete/remove) */
 .btn.danger {
-  background: linear-gradient(135deg, #f7b0c6, #d66080);
+  background: linear-gradient(135deg, #f59aad, #d66080);
   border-color: #b94563;
   color: #fff;
 }
 .btn.danger:hover {
-  background: linear-gradient(135deg, #f59aad, #c73f5e);
+  background: linear-gradient(135deg, #f38aa0, #c73f5e);
 }
 
-/* 🌿 Create/Add Button (mint accent) */
+/* 🌸 Create/Add Button (all pink version) */
 .btn.create {
   display: inline-block;
   margin-top: 20px;
-  background: linear-gradient(135deg, #b6f3de, #6fc4a7);
-  border-color: #4fa38f;
+  background: linear-gradient(135deg, #fbd1e5, #f2a6c6);
+  border-color: #e68bb5;
   color: #2c1b2b;
 }
 .btn.create:hover {
-  background: linear-gradient(135deg, #a5ebd3, #5cbfa0);
+  background: linear-gradient(135deg, #f8b8d0, #f291b7);
   color: #fff;
 }
 
 .form-box {
-  background: rgba(255, 230, 240, 0.95);
+  background: rgba(255, 230, 240, 0.97);
   border: 3px solid #d47fa7;
   border-radius: 16px;
   width: 50%;
   margin: 40px auto;
   padding: 30px;
-  box-shadow: 0 0 15px #9b4f7c;
+  box-shadow: 0 0 15px #d47fa7;
   text-align: center;
 }
 
@@ -142,7 +142,7 @@ h1 {
 .search {
   padding: 8px 12px;
   border-radius: 8px;
-  border: 2px solid #9b4f7c;
+  border: 2px solid #d47fa7;
   font-size: 16px;
   font-family: "Garamond", serif;
   background: #fff0f7;
@@ -185,7 +185,7 @@ h1 {
 }
 
 .pagination .active {
-  background: linear-gradient(135deg, #b6f3de, #6fc4a7);
-  border-color: #4fa38f;
+  background: linear-gradient(135deg, #f8b8d0, #f291b7);
+  border-color: #d47fa7;
   color: #fff;
 }

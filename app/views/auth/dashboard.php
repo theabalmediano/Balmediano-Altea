@@ -4,14 +4,13 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - Kuromi Pink Coquette</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="<?=base_url();?>/public/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
+  <link rel="stylesheet" href="<?=base_url();?>/public/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -19,99 +18,91 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
+      color: #9d174d;
     }
     .overlay {
       background: rgba(255, 240, 245, 0.6);
     }
+    .magic-icon {
+      background: linear-gradient(135deg, #f472b6, #f9a8d4, #fbcfe8);
+      padding: 0.6rem;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .card {
+      background: rgba(255,255,255,0.8);
+      border-radius: 2rem;
+      border: 1px solid #fbcfe8;
+      padding: 2rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .card:hover { transform: translateY(-5px); }
     .btn-pink {
       background: linear-gradient(to right, #f472b6, #f9a8d4);
       color: white;
-      transition: background 0.3s ease;
     }
     .btn-pink:hover {
       background: linear-gradient(to right, #f9a8d4, #f472b6);
     }
-    .input-pink {
-      background-color: rgba(255, 240, 245, 0.8);
-      transition: background-color 0.3s ease;
-    }
-    .input-pink:hover,
-    .input-pink:focus {
-      background-color: rgba(249, 168, 212, 0.3);
-      outline: none;
-      box-shadow: 0 0 0 2px #f472b6;
-    }
   </style>
 </head>
-<body class="min-h-screen relative text-pink-900">
+<body class="min-h-screen relative flex flex-col">
 
+  <!-- Overlay -->
   <div class="absolute inset-0 overlay"></div>
 
-  <div class="relative max-w-7xl mx-auto px-6 py-10 z-10">
+  <!-- Header -->
+  <header class="relative z-10 p-6 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <div class="magic-icon">
+        <i class="fa-solid fa-wand-magic-sparkles text-white text-2xl"></i>
+      </div>
+      <h1 class="text-2xl font-bold">Kuromi Pink Dashboard</h1>
+    </div>
+    <a href="<?= site_url('auth/logout') ?>" class="btn-pink px-4 py-2 rounded-full font-semibold shadow-lg flex items-center gap-2 hover:scale-105 transition-all">
+      <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </a>
+  </header>
 
-    <header class="flex justify-between items-center mb-8">
-      <h1 class="text-3xl font-bold flex items-center gap-3">
-        <i class="fa-solid fa-wand-magic-sparkles text-pink-600"></i>
-        Student Directory
-      </h1>
-      <a href="<?=site_url('auth/logout')?>" class="btn-pink px-5 py-2 rounded-full shadow-md hover:scale-105 transition">
-        <i class="fa-solid fa-right-from-bracket mr-2"></i> Logout
+  <!-- Main Content -->
+  <main class="relative z-10 flex-1 p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Card Example -->
+    <div class="card flex flex-col items-center justify-center text-center p-6">
+      <i class="fa-solid fa-user text-4xl mb-4"></i>
+      <h2 class="text-xl font-bold mb-2">Students</h2>
+      <p class="text-pink-700 mb-4">Manage student accounts and info.</p>
+      <a href="<?= site_url('students') ?>" class="btn-pink px-4 py-2 rounded-full font-semibold flex items-center gap-2 hover:scale-105 transition-all">
+        <i class="fa-solid fa-arrow-right"></i> View
       </a>
-    </header>
-
-    <form method="get" action="<?=site_url('/auth/dashboard')?>" class="mb-8">
-      <input
-        type="text"
-        name="q"
-        value="<?=html_escape($_GET['q'] ?? '')?>"
-        placeholder="Search student..."
-        class="w-full max-w-md px-5 py-3 rounded-full border border-pink-300 input-pink text-pink-900 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-500"
-      />
-    </form>
-
-    <div class="overflow-x-auto bg-white/40 backdrop-blur-xl rounded-3xl border border-pink-300 shadow-2xl">
-      <table class="w-full text-center text-pink-900 rounded-3xl">
-        <thead class="bg-pink-400 text-pink-50 rounded-t-3xl">
-          <tr>
-            <th class="py-3 rounded-tl-3xl">ID</th>
-            <th class="py-3">Last Name</th>
-            <th class="py-3">First Name</th>
-            <th class="py-3 rounded-tr-3xl">Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php if(!empty($users)): ?>
-            <?php foreach(html_escape($users) as $user): ?>
-              <tr class="hover:bg-pink-100/60 transition">
-                <td class="py-3 border-t border-pink-300"><?= $user['id'] ?></td>
-                <td class="py-3 border-t border-pink-300"><?= $user['last_name'] ?></td>
-                <td class="py-3 border-t border-pink-300"><?= $user['first_name'] ?></td>
-                <td class="py-3 border-t border-pink-300"><?= $user['email'] ?></td>
-              </tr>
-            <?php endforeach; ?>
-          <?php else: ?>
-            <tr><td colspan="4" class="py-6 text-pink-600">No students found.</td></tr>
-          <?php endif; ?>
-        </tbody>
-      </table>
     </div>
 
-    <div class="mt-8 text-center text-pink-700 font-semibold">
-      <?php if (!empty($page)) {
-        echo str_replace(
-          ['<a ', '<strong>', '</strong>'],
-          [
-            '<a class="text-pink-600 font-semibold underline mx-1"',
-            '<span class="font-bold text-pink-700 underline">',
-            '</span>'
-          ],
-          $page
-        );
-      } ?>
+    <div class="card flex flex-col items-center justify-center text-center p-6">
+      <i class="fa-solid fa-chalkboard-user text-4xl mb-4"></i>
+      <h2 class="text-xl font-bold mb-2">Classes</h2>
+      <p class="text-pink-700 mb-4">Create and manage classes.</p>
+      <a href="<?= site_url('classes') ?>" class="btn-pink px-4 py-2 rounded-full font-semibold flex items-center gap-2 hover:scale-105 transition-all">
+        <i class="fa-solid fa-arrow-right"></i> View
+      </a>
     </div>
 
-  </div>
+    <div class="card flex flex-col items-center justify-center text-center p-6">
+      <i class="fa-solid fa-gear text-4xl mb-4"></i>
+      <h2 class="text-xl font-bold mb-2">Settings</h2>
+      <p class="text-pink-700 mb-4">Update your account and preferences.</p>
+      <a href="<?= site_url('settings') ?>" class="btn-pink px-4 py-2 rounded-full font-semibold flex items-center gap-2 hover:scale-105 transition-all">
+        <i class="fa-solid fa-arrow-right"></i> View
+      </a>
+    </div>
+  </main>
 
 </body>
 </html>
-

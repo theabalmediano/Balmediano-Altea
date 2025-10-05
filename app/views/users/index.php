@@ -16,341 +16,288 @@ $role = $_SESSION['role'] ?? null;
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Kuromi User List</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="<?=base_url();?>/public/style.css" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8" />
+<title>Kuromi User List</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="<?=base_url();?>/public/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* Body & Overlay */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-image: url('https://i.pinimg.com/736x/bf/01/f9/bf01f9444340ecdb37af06d201c6f1cf.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #9d174d;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    position: relative;
+}
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 25%, #f9a8d4 50%, #f472b6 75%, #ec4899 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem 1rem;
-        }
+.overlay {
+    background: rgba(255, 240, 245, 0.6);
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
 
-        .container {
-            max-width: 1100px;
-            width: 100%;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(254, 242, 242, 0.9) 100%);
-            backdrop-filter: blur(30px);
-            border-radius: 2rem;
-            border: 2px solid rgba(236, 72, 153, 0.3);
-            box-shadow: 0 20px 60px rgba(236, 72, 153, 0.25);
-            padding: 2.5rem;
-        }
+/* Container */
+.container {
+    position: relative;
+    max-width: 1100px;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 2rem;
+    border: 1px solid #fbcfe8;
+    padding: 2.5rem;
+    box-shadow: 0 15px 40px rgba(236, 72, 153, 0.2);
+    z-index: 10;
+}
 
-        .header-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
+/* Magic icon */
+.magic-icon {
+    background: linear-gradient(135deg, #f472b6, #f9a8d4, #fbcfe8);
+    padding: 0.6rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    animation: float 3s ease-in-out infinite;
+}
 
-        h1 {
-            font-weight: 700;
-            font-size: 2.5rem;
-            background: linear-gradient(135deg, #be185d 0%, #ec4899 50%, #f9a8d4 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+@keyframes float {
+    0%,100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
 
-        .subtitle {
-            color: #be185d;
-            font-weight: 500;
-            font-size: 0.95rem;
-            margin-top: 0.25rem;
-        }
+/* Header */
+h1 {
+    font-weight: 700;
+    font-size: 2rem;
+    color: #9d174d;
+}
 
-        .search-section {
-            background: white;
-            border: 2px solid rgba(236, 72, 153, 0.3);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.1);
-        }
+.subtitle {
+    color: #be185d;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
 
-        .search-label {
-            font-weight: 600;
-            color: #be185d;
-            margin-bottom: 0.75rem;
-            display: block;
-            font-size: 0.95rem;
-        }
+/* Search section */
+.search-section {
+    background: rgba(255,240,245,0.8);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid #fbcfe8;
+}
 
-        .search-bar {
-            display: flex;
-            gap: 0.5rem;
-        }
+.search-label {
+    font-weight: 600;
+    color: #be185d;
+    margin-bottom: 0.75rem;
+    display: block;
+}
 
-        .search-bar input[type="text"] {
-            flex: 1;
-            padding: 0.875rem 1.25rem;
-            border-radius: 9999px;
-            border: 2px solid rgba(236, 72, 153, 0.3);
-            background-color: white;
-            color: #831843;
-            font-weight: 500;
-            outline: none;
-            transition: all 0.3s;
-            font-size: 0.95rem;
-        }
+.search-bar {
+    display: flex;
+    gap: 0.5rem;
+}
 
-        .search-bar input[type="text"]:focus {
-            border-color: #ec4899;
-            box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.1);
-        }
+.search-bar input[type="text"] {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid #fbcfe8;
+    background-color: rgba(255,240,245,0.7);
+    color: #831843;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.3s;
+}
 
-        .search-bar button {
-            padding: 0.875rem 2rem;
-            border-radius: 9999px;
-            border: none;
-            background: linear-gradient(135deg, #be185d 0%, #ec4899 100%);
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(190, 24, 93, 0.4);
-        }
+.search-bar input[type="text"]:focus {
+    border-color: #ec4899;
+    box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
+}
 
-        .search-bar button:hover {
-            background: linear-gradient(135deg, #9f1239 0%, #be185d 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(190, 24, 93, 0.5);
-        }
+.search-bar button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    border: none;
+    background: linear-gradient(135deg,#be185d 0%,#ec4899 100%);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
 
-        .btn-create {
-            background: linear-gradient(135deg, #be185d 0%, #ec4899 100%);
-            color: white;
-            font-weight: 700;
-            padding: 0.875rem 1.75rem;
-            border-radius: 9999px;
-            text-decoration: none;
-            box-shadow: 0 4px 15px rgba(190, 24, 93, 0.4);
-            transition: all 0.3s;
-            display: inline-block;
-            font-size: 0.95rem;
-        }
+.search-bar button:hover {
+    background: linear-gradient(135deg,#9f1239 0%,#be185d 100%);
+    transform: translateY(-2px);
+}
 
-        .btn-create:hover {
-            background: linear-gradient(135deg, #9f1239 0%, #be185d 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(190, 24, 93, 0.5);
-        }
+/* Buttons */
+.btn-create, .btn-logout {
+    background: linear-gradient(135deg,#be185d 0%,#ec4899 100%);
+    color: white;
+    font-weight: 700;
+    padding: 0.75rem 1.75rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(190,24,93,0.4);
+    transition: all 0.3s;
+    display: inline-block;
+}
 
-        .table-wrapper {
-            background: white;
-            border-radius: 1.5rem;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.1);
-            border: 2px solid rgba(236, 72, 153, 0.2);
-        }
+.btn-create:hover, .btn-logout:hover {
+    background: linear-gradient(135deg,#9f1239 0%,#be185d 100%);
+    transform: translateY(-2px);
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            color: #831843;
-        }
+/* Table */
+.table-wrapper {
+    background: rgba(255,240,245,0.8);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    border: 1px solid #fbcfe8;
+}
 
-        thead {
-            background: linear-gradient(135deg, #f472b6 0%, #ec4899 100%);
-        }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #831843;
+}
 
-        th {
-            padding: 1.25rem 1.5rem;
-            color: white;
-            font-weight: 700;
-            text-align: left;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
+thead {
+    background: linear-gradient(135deg,#f472b6 0%,#ec4899 100%);
+}
 
-        tbody tr {
-            transition: all 0.2s ease;
-            background: white;
-        }
+th {
+    padding: 1rem 1.5rem;
+    color: white;
+    font-weight: 700;
+    text-align: left;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
 
-        tbody tr:nth-child(even) {
-            background: rgba(252, 231, 243, 0.4);
-        }
+tbody tr {
+    transition: all 0.2s ease;
+    background: rgba(255,255,255,0.9);
+}
 
-        tbody tr:hover {
-            background: rgba(249, 168, 212, 0.3);
-            transform: scale(1.002);
-        }
+tbody tr:nth-child(even) {
+    background: rgba(252,231,243,0.6);
+}
 
-        td {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid rgba(236, 72, 153, 0.1);
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
+tbody tr:hover {
+    background: rgba(249,168,212,0.3);
+    transform: scale(1.002);
+}
 
-        .action-cell {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
+td {
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
 
-        .btn-update {
-            background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
-            color: white;
-            font-weight: 600;
-            padding: 0.5rem 1.25rem;
-            border-radius: 9999px;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: inline-block;
-            font-size: 0.85rem;
-            box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3);
-        }
+.action-cell {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
 
-        .btn-update:hover {
-            background: linear-gradient(135deg, #9333ea 0%, #a855f7 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
-        }
+.btn-update {
+    background: linear-gradient(135deg,#a855f7 0%,#c084fc 100%);
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+}
 
-        .btn-delete {
-            background: linear-gradient(135deg, #fb7185 0%, #f43f5e 100%);
-            color: white;
-            font-weight: 600;
-            padding: 0.5rem 1.25rem;
-            border-radius: 9999px;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: inline-block;
-            font-size: 0.85rem;
-            box-shadow: 0 2px 8px rgba(251, 113, 133, 0.3);
-        }
+.btn-update:hover {
+    background: linear-gradient(135deg,#9333ea 0%,#a855f7 100%);
+    transform: translateY(-2px);
+}
 
-        .btn-delete:hover {
-            background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(251, 113, 133, 0.4);
-        }
+.btn-delete {
+    background: linear-gradient(135deg,#fb7185 0%,#f43f5e 100%);
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+}
 
-        .bottom-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
+.btn-delete:hover {
+    background: linear-gradient(135deg,#f43f5e 0%,#e11d48 100%);
+    transform: translateY(-2px);
+}
 
-        .pagination {
-            color: #831843;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
+.bottom-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
 
-        .pagination a {
-            padding: 0.5rem 1rem;
-            border: 2px solid rgba(236, 72, 153, 0.3);
-            margin: 0 0.25rem;
-            border-radius: 9999px;
-            color: #831843;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: inline-block;
-        }
+.pagination a {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid #fbcfe8;
+    margin: 0 0.25rem;
+    color: #831843;
+    text-decoration: none;
+}
 
-        .pagination a:hover {
-            background: rgba(249, 168, 212, 0.4);
-            border-color: #ec4899;
-            transform: translateY(-2px);
-        }
+.pagination a:hover {
+    background: rgba(249,168,212,0.4);
+    transform: translateY(-2px);
+}
 
-        .pagination strong {
-            padding: 0.5rem 1rem;
-            background: linear-gradient(135deg, #be185d 0%, #ec4899 100%);
-            color: white;
-            border-radius: 9999px;
-            margin: 0 0.25rem;
-            display: inline-block;
-            box-shadow: 0 2px 8px rgba(190, 24, 93, 0.3);
-        }
+.pagination strong {
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg,#be185d 0%,#ec4899 100%);
+    color: white;
+    border-radius: 9999px;
+    margin: 0 0.25rem;
+}
 
-        .btn-logout {
-            background: linear-gradient(135deg, #be185d 0%, #ec4899 100%);
-            color: white;
-            font-weight: 700;
-            padding: 0.75rem 1.75rem;
-            border-radius: 9999px;
-            text-decoration: none;
-            box-shadow: 0 4px 15px rgba(190, 24, 93, 0.4);
-            transition: all 0.3s;
-            display: inline-block;
-        }
-
-        .btn-logout:hover {
-            background: linear-gradient(135deg, #9f1239 0%, #be185d 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(190, 24, 93, 0.5);
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 1.5rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .header-section {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .table-wrapper {
-                overflow-x: auto;
-            }
-
-            table {
-                min-width: 600px;
-            }
-
-            .bottom-section {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-    </style>
+@media (max-width: 768px) {
+    .container { padding: 1.5rem; }
+    h1 { font-size: 1.75rem; }
+    .table-wrapper { overflow-x: auto; }
+}
+</style>
 </head>
 <body>
 
-<div class="container">
+<div class="overlay"></div>
 
-    <div class="header-section">
-        <div>
-            <h1>User Management</h1>
-            <p class="subtitle">Manage your users with ease ♡</p>
+<div class="container">
+    <!-- Header -->
+    <div class="header-section flex justify-between items-center mb-6 flex-wrap gap-3">
+        <div class="flex items-center gap-3">
+            <div class="magic-icon"><i class="fa-solid fa-wand-magic-sparkles text-white"></i></div>
+            <div>
+                <h1>User Management</h1>
+                <p class="subtitle">Manage your users with ease ♡</p>
+            </div>
         </div>
         <?php if ($role === 'admin'): ?>
-            <a class="btn-create" href="<?=site_url('users/create');?>">
-                Add New User
-            </a>
+            <a class="btn-create" href="<?=site_url('users/create');?>">Add New User</a>
         <?php endif; ?>
     </div>
 
+    <!-- Search -->
     <div class="search-section">
         <label class="search-label">Search Users</label>
         <form method="get" action="<?=site_url('/users')?>" class="search-bar">
@@ -359,7 +306,8 @@ $role = $_SESSION['role'] ?? null;
         </form>
     </div>
 
-    <div class="table-wrapper">
+    <!-- Table -->
+    <div class="table-wrapper mt-6">
         <table>
             <thead>
                 <tr>
@@ -376,10 +324,10 @@ $role = $_SESSION['role'] ?? null;
                 <?php if(!empty($users)): ?>
                     <?php foreach(html_escape($users) as $user): ?>
                         <tr>
-                            <td style="font-weight: 700; color: #be185d;"><?= $user['id']; ?></td>
+                            <td style="font-weight:700;color:#be185d;"><?= $user['id']; ?></td>
                             <td><?= $user['first_name']; ?></td>
                             <td><?= $user['last_name']; ?></td>
-                            <td style="color: #be185d;"><?= $user['email']; ?></td>
+                            <td style="color:#be185d;"><?= $user['email']; ?></td>
                             <?php if ($role === 'admin'): ?>
                                 <td>
                                     <div class="action-cell">
@@ -392,9 +340,8 @@ $role = $_SESSION['role'] ?? null;
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="<?= $role === 'admin' ? '5' : '4' ?>" style="text-align: center; padding: 3rem; color: #be185d;">
-                            <p style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">No users found</p>
-                            <p style="font-weight: 500; font-size: 0.9rem; color: #ec4899;">Try searching with different keywords</p>
+                        <td colspan="<?= $role === 'admin' ? '5' : '4' ?>" class="text-center p-12 font-semibold text-pink-700">
+                            No users found. Try searching with different keywords.
                         </td>
                     </tr>
                 <?php endif; ?>
@@ -402,15 +349,13 @@ $role = $_SESSION['role'] ?? null;
         </table>
     </div>
 
-    <div class="bottom-section">
+    <!-- Bottom section -->
+    <div class="bottom-section mt-6">
         <div class="pagination">
             <?= $page ?? '' ?>
         </div>
-        <a href="<?=site_url('auth/logout');?>" class="btn-logout">
-            Logout
-        </a>
+        <a href="<?=site_url('auth/logout');?>" class="btn-logout">Logout</a>
     </div>
-
 </div>
 
 </body>

@@ -33,17 +33,6 @@ $role = $_SESSION['role'] ?? null;
       background-attachment: fixed;
         }
 
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 2rem;
-            max-width: 1200px;
-            width: 100%;
-            padding: 2.5rem 3rem;
-            box-shadow: 0 20px 60px rgba(255, 182, 193, 0.3);
-            color: #d63384;
-        }
-
         .header {
             display: flex;
             justify-content: space-between;

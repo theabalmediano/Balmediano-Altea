@@ -138,13 +138,6 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
           ?>
         </div>
 
-        <!-- Back to Create Page -->
-        <a href="<?=site_url('/users/create');?>"
-           class="bg-pink-100/70 hover:bg-pink-200 text-pink-800 font-semibold px-5 py-2 rounded-full shadow text-sm transition">
-          <i class="fa-solid fa-plus mr-2"></i> Create New Student
-        </a>
-      </div>
-
     </div>
   </div>
 

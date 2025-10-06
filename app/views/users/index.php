@@ -14,25 +14,23 @@ $role = $_SESSION['role'] ?? null;
 ?>
 
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Student Directory - Kuromi Pink Coquette</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="<?=base_url();?>/public/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Directory - Kuromi Pink Coquette</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="<?=base_url();?>/public/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
 
-    <style>
         body {
-            font-family: 'Nunito', 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #ffe4ec 0%, #ffd6e8 50%, #ffcce0 100%);
-            min-height: 100vh;
-            padding: 2rem 1rem;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+      font-family: 'Poppins', sans-serif;
+      background-image: url('https://i.pinimg.com/736x/bf/01/f9/bf01f9444340ecdb37af06d201c6f1cf.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
         }
 
         .card {

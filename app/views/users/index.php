@@ -86,8 +86,7 @@ $role = $_SESSION['role'] ?? null;
             font-size: 2rem;
             font-weight: 800;
             background: linear-gradient(135deg, #d63384, #ffb6c1);
-            
-   
+             
         }
 
         .btn-primary {
